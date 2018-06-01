@@ -22,7 +22,6 @@ class Game
 	{
 		// load teapot
 		mesh = new Mesh( "../../assets/teapot.obj" );
-        Mesh a = new Mesh("../../assets/teapot.obj");
         floor = new Mesh( "../../assets/floor.obj" );
 		// initialize stopwatch
 		timer = new Stopwatch();
