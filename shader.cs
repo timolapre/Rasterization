@@ -4,14 +4,14 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Template_P3 {
 
-public class Shader
-{
-	// data members
-	public int programID, vsID, fsID;
-	public int attribute_vpos;
-	public int attribute_vnrm;
-	public int attribute_vuvs;
-	public int uniform_mview;
+    public class Shader
+    {
+	    // data members
+	    public int programID, vsID, fsID;
+	    public int attribute_vpos;
+	    public int attribute_vnrm;
+	    public int attribute_vuvs;
+	    public int uniform_mview;
 
 	// constructor
 	public Shader( String vertexShader, String fragmentShader )

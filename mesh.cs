@@ -7,21 +7,23 @@ namespace Template_P3 {
 
 // mesh and loader based on work by JTalton; http://www.opentk.com/node/642
 
-public class Mesh
-{
-	// data members
-	public ObjVertex[] vertices;			// vertex positions, model space
-	public ObjTriangle[] triangles;			// triangles (3 vertex indices)
-	public ObjQuad[] quads;					// quads (4 vertex indices)
-	int vertexBufferId;						// vertex buffer
-	int triangleBufferId;					// triangle buffer
-	int quadBufferId;						// quad buffer
+    public class Mesh
+    {
+	    // data members
+	    public ObjVertex[] vertices;			// vertex positions, model space
+	    public ObjTriangle[] triangles;			// triangles (3 vertex indices)
+	    public ObjQuad[] quads;					// quads (4 vertex indices)
+	    int vertexBufferId;						// vertex buffer
+	    int triangleBufferId;					// triangle buffer
+	    int quadBufferId;						// quad buffer
+        Matrix4 ModelView;
 
 	// constructor
 	public Mesh( string fileName )
 	{
 		MeshLoader loader = new MeshLoader();
 		loader.Load( this, fileName );
+        Game.sceneGraph.Add(this);
 	}
 
 	// initialization; called during first render
@@ -33,7 +35,6 @@ public class Mesh
 			GL.GenBuffers( 1, out vertexBufferId );
 			GL.BindBuffer( BufferTarget.ArrayBuffer, vertexBufferId );
 			GL.BufferData( BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * Marshal.SizeOf( typeof( ObjVertex ) )), vertices, BufferUsageHint.StaticDraw );
-
 			// generate triangle index array
 			GL.GenBuffers( 1, out triangleBufferId );
 			GL.BindBuffer( BufferTarget.ElementArrayBuffer, triangleBufferId );
