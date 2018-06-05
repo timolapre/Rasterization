@@ -12,7 +12,7 @@ namespace template_P3
 {
     public class SceneGraph
     {
-
+        Hierarchy Scene = new Hierarchy(null);
         public List<Mesh> MeshList = new List<Mesh>();
 
         // create shaders
@@ -23,8 +23,18 @@ namespace template_P3
         float a = 0;
         Stopwatch timer = new Stopwatch();
 
+        public void Init()
+        {
+            Hierarchy Child = new Hierarchy(new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0)));
+            Child.AddChild(new Hierarchy(new Mesh("../../assets/floor.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0))));
+            Scene.AddChild(Child);
+        }
+
         public void Render(Matrix4 CameraMatrix)
         {
+            foreach(Hierarchy child in Scene.Children)
+                RenderChildren(child, CameraMatrix);
+
             foreach (Mesh item in MeshList)
             {
                 /*// measure frame duration
@@ -40,9 +50,17 @@ namespace template_P3
                 a += 0.01f;
                 if (a > 2 * Math.PI) a -= 2 * (float)Math.PI;*/
 
-                item.Render(shader, CameraMatrix, wood);
+                //item.Render(shader, CameraMatrix, wood);
             }
         }
+
+        public void RenderChildren(Hierarchy parent, Matrix4 CameraMatrix)
+        {
+            parent.mesh.Render(shader, CameraMatrix, wood);
+            foreach (Hierarchy child in parent.Children)
+                RenderChildren(child, CameraMatrix);
+        }
+        
         public void Add(Mesh mesh)
         {
             MeshList.Add(mesh);
