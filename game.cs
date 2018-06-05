@@ -30,8 +30,8 @@ namespace Template_P3
         {
             // load teapot
             //mesh = new Mesh( "../../assets/teapot.obj" );
-            Mesh mesh2 = new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
-            floor = new Mesh("../../assets/floor.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0));
+            //Mesh mesh2 = new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+           // floor = new Mesh("../../assets/floor.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0));
             // initialize stopwatch
             timer = new Stopwatch();
             timer.Reset();

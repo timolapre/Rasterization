@@ -16,15 +16,15 @@ namespace Template_P3 {
 	    int vertexBufferId;						// vertex buffer
 	    int triangleBufferId;					// triangle buffer
 	    int quadBufferId;						// quad buffer
-        Matrix4 ModelView;
+        public Matrix4 ModelView;
 
         Vector3 offset;
         int a = 0;
 
 	// constructor
-	public Mesh( string fileName, Vector3 position, Vector3 Rotation)
+	public Mesh( string fileName, Matrix4 position, Vector3 Rotation)
 	{
-        offset = position;
+        ModelView = position;
 
         MeshLoader loader = new MeshLoader();
 		loader.Load( this, fileName );

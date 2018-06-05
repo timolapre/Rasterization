@@ -25,8 +25,8 @@ namespace template_P3
 
         public void Init()
         {
-            Hierarchy Child = new Hierarchy(new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0)));
-            Child.AddChild(new Hierarchy(new Mesh("../../assets/floor.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0))));
+            Hierarchy Child = new Hierarchy(new Mesh("../../assets/teapot.obj", new Matrix4(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), new Vector3(0, 0, 0)));
+            Child.AddChild(new Hierarchy(new Mesh("../../assets/floor.obj", new Matrix4(0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), new Vector3(0, 0, 0))));
             Scene.AddChild(Child);
         }
 
@@ -34,31 +34,14 @@ namespace template_P3
         {
             foreach(Hierarchy child in Scene.Children)
                 RenderChildren(child, CameraMatrix);
-
-            foreach (Mesh item in MeshList)
-            {
-                /*// measure frame duration
-                float frameDuration = timer.ElapsedMilliseconds;
-                timer.Reset();
-                timer.Start();
-
-                Matrix4 transform = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
-                transform *= Matrix4.CreateTranslation(0, -4, -15);
-                transform *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
-
-                // update rotation
-                a += 0.01f;
-                if (a > 2 * Math.PI) a -= 2 * (float)Math.PI;*/
-
-                //item.Render(shader, CameraMatrix, wood);
-            }
         }
 
-        public void RenderChildren(Hierarchy parent, Matrix4 CameraMatrix)
+        public void RenderChildren(Hierarchy parent, Matrix4 LocalMatrix)
         {
-            parent.mesh.Render(shader, CameraMatrix, wood);
+            LocalMatrix += parent.mesh.ModelView;
+            parent.mesh.Render(shader, LocalMatrix, wood);
             foreach (Hierarchy child in parent.Children)
-                RenderChildren(child, CameraMatrix);
+                RenderChildren(child, LocalMatrix);
         }
         
         public void Add(Mesh mesh)
