@@ -18,10 +18,15 @@ namespace Template_P3 {
 	    int quadBufferId;						// quad buffer
         Matrix4 ModelView;
 
+        Vector3 offset;
+        int a = 0;
+
 	// constructor
-	public Mesh( string fileName )
+	public Mesh( string fileName, Vector3 position, Vector3 Rotation)
 	{
-		MeshLoader loader = new MeshLoader();
+        offset = position;
+
+        MeshLoader loader = new MeshLoader();
 		loader.Load( this, fileName );
         Game.sceneGraph.Add(this);
 	}
@@ -65,8 +70,10 @@ namespace Template_P3 {
 		// enable shader
 		GL.UseProgram( shader.programID );
 
-		// pass transform to vertex shader
-		GL.UniformMatrix4( shader.uniform_mview, false, ref transform );
+        // pass transform to vertex shader
+        ///Dit werkt helaas niet lol \/\/
+        //transform += Matrix4.CreateTranslation(offset);
+		GL.UniformMatrix4( shader.uniform_mview, false, ref transform);
 
 		// enable position, normal and uv attributes
 		GL.EnableVertexAttribArray( shader.attribute_vpos );

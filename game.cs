@@ -28,8 +28,9 @@ namespace Template_P3 {
     public void Init()
 	{
 		// load teapot
-		mesh = new Mesh( "../../assets/teapot.obj" );
-        floor = new Mesh( "../../assets/floor.obj" );
+		//mesh = new Mesh( "../../assets/teapot.obj" );
+        Mesh mesh2 = new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+        floor = new Mesh( "../../assets/floor.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0));
 		// initialize stopwatch
 		timer = new Stopwatch();
 		timer.Reset();
@@ -83,6 +84,8 @@ namespace Template_P3 {
         public void RotateCamera(float x, float y, float z)
         {
             //Add some amazing code to rotate camera (or actually the world around the camera)
+            ///voor nu ff deze mooie rotatie
+            a += 0.1f;
         }
 
         public void GetKeyInput()
