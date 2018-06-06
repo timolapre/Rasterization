@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using template_P3;
 
 namespace Template_P3 {
 
@@ -18,21 +19,23 @@ namespace Template_P3 {
 	    int quadBufferId;						// quad buffer
         public Matrix4 ModelView;
 
-        Vector3 offset;
+        public Vector3 offset;
+        public Vector3 Rotation;
         int a = 0;
 
-	// constructor
-	public Mesh( string fileName, Matrix4 position, Vector3 Rotation)
+        // constructor
+        public Mesh(string fileName, Vector3 position, Vector3 Rotation, Hierarchy parent = null)
 	{
-        ModelView = position;
+            offset = position;// +parent.mesh.offset;
+            this.Rotation = Rotation;
 
         MeshLoader loader = new MeshLoader();
 		loader.Load( this, fileName );
         Game.sceneGraph.Add(this);
-	}
+        }
 
-	// initialization; called during first render
-	public void Prepare( Shader shader )
+        // initialization; called during first render
+        public void Prepare( Shader shader )
 	{
 		if (vertexBufferId == 0)
 		{
@@ -55,8 +58,8 @@ namespace Template_P3 {
 	// render the mesh using the supplied shader and matrix
 	public void Render( Shader shader, Matrix4 transform, Texture texture )
 	{
-		// on first run, prepare buffers
-		Prepare( shader );
+        // on first run, prepare buffers
+        Prepare( shader );
 
 		// safety dance
 		GL.PushClientAttrib( ClientAttribMask.ClientVertexArrayBit );
@@ -70,9 +73,8 @@ namespace Template_P3 {
 		// enable shader
 		GL.UseProgram( shader.programID );
 
-        // pass transform to vertex shader
-        ///Dit werkt helaas niet lol \/\/
-        //transform += Matrix4.CreateTranslation(offset);
+            // pass transform to vertex shader
+            Console.WriteLine(transform.Row0);
 		GL.UniformMatrix4( shader.uniform_mview, false, ref transform);
 
 		// enable position, normal and uv attributes

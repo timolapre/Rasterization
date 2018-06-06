@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using OpenTK;
 using OpenTK.Input;
@@ -16,14 +17,14 @@ namespace Template_P3
         public Surface screen;                  // background surface for printing etc.
         Mesh mesh, floor;                       // a mesh to draw using OpenGL
         const float PI = 3.1415926535f;         // PI
-        float a = 0;                            // teapot rotation angle
+        public static float x = 0, y = 0, z = 0;                            // teapot rotation angle
         Stopwatch timer;                        // timer for measuring frame duration
         Shader shader;                          // shader to use for rendering
         Texture wood;                           // texture to use for rendering
 
         public static SceneGraph sceneGraph = new SceneGraph();
         Matrix4 CamMatrix = new Matrix4();
-        Vector3 CamPos = new Vector3(0, -4, -15);
+        static public Vector3 CamPos = new Vector3(0, -4, -15);
 
         // initialize
         public void Init()
@@ -31,7 +32,7 @@ namespace Template_P3
             // load teapot
             //mesh = new Mesh( "../../assets/teapot.obj" );
             //Mesh mesh2 = new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
-           // floor = new Mesh("../../assets/floor.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0));
+            //floor = new Mesh("../../assets/floor.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0));
             // initialize stopwatch
             timer = new Stopwatch();
             timer.Reset();
@@ -60,7 +61,10 @@ namespace Template_P3
             timer.Start();
 
             // prepare matrix for vertex shader
-            CamMatrix = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
+            CamMatrix = Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), x);
+            CamMatrix *= Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), y);
+            CamMatrix *= Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), z);
+            Console.WriteLine(x);
             CamMatrix *= Matrix4.CreateTranslation(CamPos.X, CamPos.Y, CamPos.Z);
             CamMatrix *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
 
@@ -88,13 +92,15 @@ namespace Template_P3
         {
             //Add some amazing code to rotate camera (or actually the world around the camera)
             ///voor nu ff deze mooie rotatie
-            a += 0.1f;
+            Game.x += x;
+            Game.y += y;
+            Game.z += z;
         }
 
         public void GetKeyInput()
         {
             float MoveSpeed = 0.2f;
-            float RotateSpeed = 0.1f;
+            float RotateSpeed = 0.01f;
 
             KeyboardState keystate = Keyboard.GetState();
             //Move
@@ -113,13 +119,17 @@ namespace Template_P3
 
             //Rotate
             if (keystate.IsKeyDown(Key.W))
-                RotateCamera(RotateSpeed, 0, 0);
-            if (keystate.IsKeyDown(Key.S))
                 RotateCamera(-RotateSpeed, 0, 0);
+            if (keystate.IsKeyDown(Key.S))
+                RotateCamera(RotateSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.A))
                 RotateCamera(0, RotateSpeed, 0);
             if (keystate.IsKeyDown(Key.D))
                 RotateCamera(0, -RotateSpeed, 0);
+            if (keystate.IsKeyDown(Key.Q))
+                RotateCamera(0,0, RotateSpeed);
+            if (keystate.IsKeyDown(Key.E))
+                RotateCamera(0,0, -RotateSpeed);
 
         }
     }
