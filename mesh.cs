@@ -21,17 +21,15 @@ namespace Template_P3 {
 
         public Vector3 offset;
         public Vector3 Rotation;
-        int a = 0;
 
         // constructor
-        public Mesh(string fileName, Vector3 position, Vector3 Rotation, Hierarchy parent = null)
+        public Mesh(string fileName, Vector3 position, Vector3 Rotation, Node parent = null)
 	{
             offset = position;// +parent.mesh.offset;
             this.Rotation = Rotation;
 
         MeshLoader loader = new MeshLoader();
 		loader.Load( this, fileName );
-        Game.sceneGraph.Add(this);
         }
 
         // initialization; called during first render
