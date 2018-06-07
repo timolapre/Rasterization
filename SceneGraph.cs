@@ -12,7 +12,8 @@ namespace template_P3
 {
     public class SceneGraph
     {
-        Node Scene = new Node(null);
+
+        public List<Mesh> MeshList = new List<Mesh>();
 
         // create shaders
         Shader shader = new Shader( "../../shaders/vs.glsl", "../../shaders/fs.glsl" );
@@ -22,6 +23,7 @@ namespace template_P3
         float a = 0;
         Stopwatch timer = new Stopwatch();
 
+<<<<<<< HEAD
         public void Init()
 		{
 			Node Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0)));
@@ -32,21 +34,31 @@ namespace template_P3
             Scene.AddChild(Child);
 		}
 
+=======
+>>>>>>> 0032aa5cd4ddebb8910c9ddd7a12400297634737
         public void Render(Matrix4 CameraMatrix)
         {
-            foreach(Node child in Scene.Children)
-                RenderChildren(child, CameraMatrix);
-        }
+            foreach (Mesh item in MeshList)
+            {
+                /*// measure frame duration
+                float frameDuration = timer.ElapsedMilliseconds;
+                timer.Reset();
+                timer.Start();
 
-        public void RenderChildren(Node parent, Matrix4 LocalMatrix)
+                Matrix4 transform = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
+                transform *= Matrix4.CreateTranslation(0, -4, -15);
+                transform *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
+
+                // update rotation
+                a += 0.01f;
+                if (a > 2 * Math.PI) a -= 2 * (float)Math.PI;*/
+
+                item.Render(shader, CameraMatrix, wood);
+            }
+        }
+        public void Add(Mesh mesh)
         {
-            LocalMatrix.Row3 += new Vector4(parent.mesh.offset, parent.mesh.offset.Z);
-            Vector4 row0 = LocalMatrix.Row0;
-            //LocalMatrix = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
-            //LocalMatrix.Row0 = new Vector4((float)Math.Cos(Math.Acos(row0.X) + parent.mesh.Rotation.X), 0, (float)Math.Sin(Math.Asin(row0.Z)+parent.mesh.Rotation.X), (float)Math.Sin(Math.Asin(row0.W)+parent.mesh.Rotation.X));
-            parent.mesh.Render(shader, LocalMatrix, wood);
-            foreach (Node child in parent.Children)
-                RenderChildren(child, LocalMatrix);
+            MeshList.Add(mesh);
         }
     }
 }
