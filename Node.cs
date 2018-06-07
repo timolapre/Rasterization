@@ -7,26 +7,26 @@ using Template_P3;
 
 namespace template_P3
 {
-    public class Hierarchy
+    public class Node
     {
         public Mesh mesh;
-        public List<Hierarchy> Children;
+        public List<Node> Children;
 
-        public Hierarchy(Mesh mesh, List<Hierarchy> Children = null)
+        public Node(Mesh mesh, List<Node> Children = null)
         {
             this.mesh = mesh;
             if(Children == null)
-                 this.Children = new List<Hierarchy>();
+                 this.Children = new List<Node>();
             else
                 this.Children = Children;
         }
 
-        public void AddChild(Hierarchy child)
+        public void AddChild(Node child)
         {
             Children.Add(child);
         }
 
-        public void RemoveChild(Hierarchy child)
+        public void RemoveChild(Node child)
         {
             Children.Remove(child);
         }
