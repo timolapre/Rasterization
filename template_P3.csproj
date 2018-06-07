@@ -69,6 +69,7 @@
     <Compile Include="game.cs" />
     <Compile Include="mesh.cs" />
     <Compile Include="meshLoader.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="SceneGraph.cs" />
     <Compile Include="shader.cs" />
     <Compile Include="surface.cs" />
