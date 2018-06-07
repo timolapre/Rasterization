@@ -28,7 +28,7 @@ namespace template_P3
             Node Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, -2, 0), new Vector3(.5f, 0, 0)));
             Child.AddChild(Child2);
             Scene.AddChild(Child);
-            Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 20, 0), new Vector3(0, 0, 0)));
+            Child = new Node(new Mesh("../../assets/untitled.obj", new Vector3(0, 20, 0), new Vector3(0, 0, 0)));
             Scene.AddChild(Child);
         }
 

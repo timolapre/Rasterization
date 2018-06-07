@@ -9,6 +9,7 @@ in vec3 vPosition;			// untransformed vertex position
 out vec4 normal;			// transformed vertex normal
 out vec2 uv;				
 uniform mat4 transform;
+//uniform vec3 ambientLightColor
  
 // vertex shader
 void main()
