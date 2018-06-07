@@ -22,16 +22,13 @@ namespace template_P3
         float a = 0;
         Stopwatch timer = new Stopwatch();
 
-        Matrix4 rotation = new Matrix4(new Vector4(1, 0, 0, 0), new Vector4(0, (float)Math.Cos(4), 0, 0), new Vector4(0, 0, 0, 0), new Vector4(0, 0, 0, 1));
-        Matrix4 translation = new Matrix4(new Vector4(0,0,0,0), new Vector4(0,0,0,0), new Vector4(0,0,0,0), new Vector4(5,0,0,0));
-
         public void Init()
 		{
 			Node Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0)));
 			Node Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, -2, 0), new Vector3(.5f, 0, 0)));
 			Child.AddChild(Child2);
 			Scene.AddChild(Child);
-			Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 10, 0), new Vector3(0, 0, 0)));
+			Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 20, 0), new Vector3(0, 0, 0)));
             Scene.AddChild(Child);
 		}
 
