@@ -67,11 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="game.cs" />
-<<<<<<< HEAD
     <Compile Include="Light.cs" />
-=======
-    <Compile Include="Node.cs" />
->>>>>>> 56f9f1b97e59a6c1d9e4f76a486da9d90767b603
     <Compile Include="mesh.cs" />
     <Compile Include="meshLoader.cs" />
     <Compile Include="SceneGraph.cs" />
