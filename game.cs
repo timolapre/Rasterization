@@ -20,7 +20,11 @@ namespace Template_P3
         public static float x = 0, y = 0, z = 0;                            // teapot rotation angle
         Stopwatch timer;                        // timer for measuring frame duration
         Shader shader;                          // shader to use for rendering
+        public static Shader postproc;                        // shader to use for post processing
         Texture wood;                           // texture to use for rendering
+        public static RenderTarget target;                    // intermediate render target
+        public static ScreenQuad quad;                        // screen filling quad for post processing
+        bool useRenderTarget = true;
 
         public static SceneGraph sceneGraph = new SceneGraph();
         Matrix4 CamMatrix = new Matrix4();
@@ -30,17 +34,21 @@ namespace Template_P3
         public void Init()
         {
             // load teapot
-            //mesh = new Mesh( "../../assets/teapot.obj" );
+            //mesh = new Mesh( "../../assets/teapot.obj" ,Vector3.Zero,Vector3.Zero);
             //Mesh mesh2 = new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
-            //floor = new Mesh("../../assets/floor.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0));
+            //floor = new Mesh("../../assets/floor.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0));
             // initialize stopwatch
             timer = new Stopwatch();
             timer.Reset();
             timer.Start();
             // create shaders
             shader = new Shader("../../shaders/vs.glsl", "../../shaders/fs.glsl");
+            postproc = new Shader("../../shaders/vs_post.glsl", "../../shaders/fs_post.glsl");
             // load a texture
             wood = new Texture("../../assets/wood.jpg");
+            // create the render target
+            target = new RenderTarget(screen.width, screen.height);
+            quad = new ScreenQuad();
 
             sceneGraph.Init();
         }
@@ -64,7 +72,7 @@ namespace Template_P3
             CamMatrix = Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), x);
             CamMatrix *= Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), y);
             CamMatrix *= Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), z);
-            Console.WriteLine(x);
+            //Console.WriteLine(x);
             CamMatrix *= Matrix4.CreateTranslation(CamPos.X, CamPos.Y, CamPos.Z);
             CamMatrix *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
 
@@ -72,9 +80,25 @@ namespace Template_P3
             //a += 0.001f * frameDuration; 
             //if (a > 2 * PI) a -= 2 * PI;
 
-            // render scene
-            //mesh.Render( shader, transform, wood );
-            //floor.Render( shader, transform, wood );
+            /*if (useRenderTarget)
+            {
+                // enable render target
+                target.Bind();
+
+                // render scene to render target
+                mesh.Render(shader, CamMatrix, wood);
+                floor.Render(shader, CamMatrix, wood);
+
+                // render quad
+                target.Unbind();
+                quad.Render(postproc, target.GetTextureID());
+            }
+            else
+            {
+                // render scene directly to the screen
+                mesh.Render(shader, CamMatrix, wood);
+                floor.Render(shader, CamMatrix, wood);
+            }*/
 
             //Keyboard Control
             GetKeyInput();

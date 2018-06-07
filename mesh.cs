@@ -73,7 +73,8 @@ namespace Template_P3
             GL.UseProgram(shader.programID);
 
             // pass transform to vertex shader
-            Console.WriteLine(transform.Row0);
+            //transform.Row1 = new Vector4(0,transform.Row1.Y,0,1);
+            //Console.WriteLine(transform.Row1);
             GL.UniformMatrix4(shader.uniform_mview, false, ref transform);
 
             // enable position, normal and uv attributes

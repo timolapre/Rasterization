@@ -70,6 +70,8 @@
     <Compile Include="mesh.cs" />
     <Compile Include="meshLoader.cs" />
     <Compile Include="Node.cs" />
+    <Compile Include="quad.cs" />
+    <Compile Include="rendertarget.cs" />
     <Compile Include="SceneGraph.cs" />
     <Compile Include="shader.cs" />
     <Compile Include="surface.cs" />
@@ -81,7 +83,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="shaders\fs.glsl" />
+    <None Include="shaders\fs_post.glsl" />
     <None Include="shaders\vs.glsl" />
+    <None Include="shaders\vs_post.glsl" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

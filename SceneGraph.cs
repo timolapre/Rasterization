@@ -25,17 +25,22 @@ namespace template_P3
         public void Init()
         {
             Node Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(0, 0, 0), new Vector3(0, 0, 0)));
-            Node Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, -2, 0), new Vector3(.5f, 0, 0)));
+            Node Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, -2, 0), new Vector3(0, 0, 0)));
+            Node Child3 = new Node(new Mesh("../../assets/bed.obj", new Vector3(20, 0, 0), new Vector3(0, 0, 0)));
             Child.AddChild(Child2);
             Scene.AddChild(Child);
             Child = new Node(new Mesh("../../assets/untitled.obj", new Vector3(0, 20, 0), new Vector3(0, 0, 0)));
             Scene.AddChild(Child);
+            Scene.AddChild(Child3);
         }
 
         public void Render(Matrix4 CameraMatrix)
         {
+            Game.target.Bind();
             foreach (Node child in Scene.Children)
                 RenderChildren(child, CameraMatrix);
+            Game.target.Unbind();
+            Game.quad.Render(Game.postproc, Game.target.GetTextureID());
         }
 
         public void RenderChildren(Node parent, Matrix4 LocalMatrix)
@@ -44,7 +49,10 @@ namespace template_P3
             Vector4 row0 = LocalMatrix.Row0;
             //LocalMatrix = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
             //LocalMatrix.Row0 = new Vector4((float)Math.Cos(Math.Acos(row0.X) + parent.mesh.Rotation.X), 0, (float)Math.Sin(Math.Asin(row0.Z)+parent.mesh.Rotation.X), (float)Math.Sin(Math.Asin(row0.W)+parent.mesh.Rotation.X));
+
             parent.mesh.Render(shader, LocalMatrix, wood);
+            // render quad
+
             foreach (Node child in parent.Children)
                 RenderChildren(child, LocalMatrix);
         }
