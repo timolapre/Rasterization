@@ -73,14 +73,12 @@ namespace Template_P3
             CamMatrix *= Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), y);
             CamMatrix *= Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), z);
             //Console.WriteLine(x);
-            CamMatrix *= Matrix4.CreateTranslation(CamPos.X, CamPos.Y, CamPos.Z);
-            CamMatrix *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
 
-            // update rotation
-            //a += 0.001f * frameDuration; 
-            //if (a > 2 * PI) a -= 2 * PI;
+			// update rotation
+			//a += 0.001f * frameDuration; 
+			//if (a > 2 * PI) a -= 2 * PI;
 
-            /*if (useRenderTarget)
+			/*if (useRenderTarget)
             {
                 // enable render target
                 target.Bind();
@@ -100,8 +98,8 @@ namespace Template_P3
                 floor.Render(shader, CamMatrix, wood);
             }*/
 
-            //Keyboard Control
-            GetKeyInput();
+			//Keyboard Control
+			GetKeyInput();
             //new Render scene
             sceneGraph.Render(CamMatrix);
 

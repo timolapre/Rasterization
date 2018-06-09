@@ -3,7 +3,7 @@
 // shader input
 in vec2 uv;						// interpolated texture coordinates
 in vec4 normal;					// interpolated normal
-uniform vec4 ambLightColor = vec4(0.0,0.0,1,1);
+uniform vec4 ambLightColor = vec4(0.0,0.0,0,0);
 uniform sampler2D pixels;		// texture sampler
 
 

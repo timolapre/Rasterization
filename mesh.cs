@@ -24,7 +24,7 @@ namespace Template_P3
         public Vector3 Rotation;
 
         // constructor
-        public Mesh(string fileName, Vector3 position, Vector3 Rotation, Node parent = null)
+        public Mesh(string fileName, Vector3 position, Vector3 Rotation)
         {
             offset = position;// +parent.mesh.offset;
             this.Rotation = Rotation;
@@ -33,8 +33,8 @@ namespace Template_P3
             loader.Load(this, fileName);
         }
 
-        // initialization; called during first render
-        public void Prepare(Shader shader)
+		// initialization; called during first render
+		public void Prepare(Shader shader)
         {
             if (vertexBufferId == 0)
             {
@@ -72,10 +72,12 @@ namespace Template_P3
             // enable shader
             GL.UseProgram(shader.programID);
 
-            // pass transform to vertex shader
-            //transform.Row1 = new Vector4(0,transform.Row1.Y,0,1);
-            //Console.WriteLine(transform.Row1);
-            GL.UniformMatrix4(shader.uniform_mview, false, ref transform);
+			// pass transform to vertex shader
+			//transform.Row1 = new Vector4(0,transform.Row1.Y,0,1);
+			//Console.WriteLine(transform.Row1);
+			transform *= Matrix4.CreateTranslation(Game.CamPos.X, Game.CamPos.Y, Game.CamPos.Z);
+			transform *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
+			GL.UniformMatrix4(shader.uniform_mview, false, ref transform);
 
             // enable position, normal and uv attributes
             GL.EnableVertexAttribArray(shader.attribute_vpos);
