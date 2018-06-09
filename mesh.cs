@@ -22,12 +22,14 @@ namespace Template_P3
 
         public Vector3 offset;
         public Vector3 Rotation;
+		public Vector3 scale;
 
         // constructor
-        public Mesh(string fileName, Vector3 position, Vector3 Rotation)
+        public Mesh(string fileName, Vector3 position, Vector3 Rotation, Vector3 scale)
         {
             offset = position;// +parent.mesh.offset;
             this.Rotation = Rotation;
+			this.scale = scale;
 
             MeshLoader loader = new MeshLoader();
             loader.Load(this, fileName);

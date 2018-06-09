@@ -25,12 +25,12 @@ namespace template_P3
 
         public void Init()
 		{
-			Node Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(0, 0, 0), new Vector3(0, PI, 0)));
-			Node Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(-2, -1.9f, 0), new Vector3(0, 0, 0)));
+			Node Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(0, 0, 0), new Vector3(0, PI, 0), new Vector3(1,1,1)));
+			Node Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(-2, -1.9f, 0), new Vector3(0, 0, 0), new Vector3(1,2,1)));
 			Child.AddChild(Child2);
 			Scene.AddChild(Child);
-			Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(20, 0, 0), new Vector3(0, 0, 0)));
-			Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, 0, .5f* PI)));
+			Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(20, 0, 0), new Vector3(0, 0, 0), new Vector3(1,1,1)));
+			Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, 0, .5f* PI), new Vector3(1,1,1)));
 			Child.AddChild(Child2);
 			Scene.AddChild(Child);
 		}
@@ -51,6 +51,7 @@ namespace template_P3
 			parentMatrix.Row3 = new Vector4(parent.mesh.offset, 1);
 			//LocalMatrix *= parentMatrix;
 			LocalMatrix *= Matrix4.CreateTranslation(parent.mesh.offset);
+			LocalMatrix *= Matrix4.CreateScale(parent.mesh.scale);
 			LocalMatrix *= Matrix4.CreateRotationX(parent.mesh.Rotation.X);
 			LocalMatrix *= Matrix4.CreateRotationY(parent.mesh.Rotation.Y);
 			LocalMatrix *= Matrix4.CreateRotationZ(parent.mesh.Rotation.Z);
