@@ -23,48 +23,55 @@ namespace template_P3
 		float a = 0;
         Stopwatch timer = new Stopwatch();
 
-        public void Init()
+		Node Child = new Node(null);
+		Node Child3 = new Node(null);
+		public void Init()
 		{
-			Node Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(0, 0, 0), new Vector3(0, PI, 0), new Vector3(1,1,1)));
+			Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(0, 0, 0), new Vector3(0, PI, 0), new Vector3(1,1,1)));
 			Node Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(-2, -1.9f, 0), new Vector3(0, 0, 0), new Vector3(1,2,1)));
 			Child.AddChild(Child2);
 			Scene.AddChild(Child);
-			Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(20, 0, 0), new Vector3(0, 0, 0), new Vector3(1,1,1)));
-			Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, 0, .5f* PI), new Vector3(1,1,1)));
+			Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(20, 0, 0), new Vector3(0, 0, 0), new Vector3(1,1,1)));
+			Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(3, -2, 0), new Vector3(0, 0, 0), new Vector3(1,1,2)));
+			Child3 = new Node(new Mesh("../../assets/floor.obj", new Vector3(0, 10, 0), new Vector3(0, 0, 0), new Vector3(1, 1, .5f)));
+			Node Child4 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(3, -2, 0), new Vector3(0, 0, 0), new Vector3(2, 1, 1)));
+			Child3.AddChild(Child4);
+			Child2.AddChild(Child3);
 			Child.AddChild(Child2);
 			Scene.AddChild(Child);
 		}
 
         public void Render(Matrix4 CameraMatrix)
         {
+			Child.mesh.Rotation.Y += .01f;
+			Child3.mesh.Rotation.Y += .01f;
             Game.target.Bind();
+			Matrix4 plainMatrix = new Matrix4();
+			plainMatrix.Diagonal = new Vector4(1, 1, 1, 1);
 			foreach (Node child in Scene.Children)
-                RenderChildren(child, CameraMatrix);
+                RenderChildren(child, CameraMatrix, plainMatrix, plainMatrix);
             Game.target.Unbind();
             Game.quad.Render(Game.postproc, Game.target.GetTextureID());
         }
 
-        public void RenderChildren(Node parent, Matrix4 LocalMatrix)
+		public void RenderChildren(Node parent, Matrix4 LocalMatrix, Matrix4 rotMatrix, Matrix4 transMatrix)
 		{
-			Matrix4 parentMatrix = Matrix4.Zero;
-			parentMatrix.Diagonal = new Vector4(1, 1, 1, 1);
-			parentMatrix.Row3 = new Vector4(parent.mesh.offset, 1);
-			//LocalMatrix *= parentMatrix;
-			LocalMatrix *= Matrix4.CreateTranslation(parent.mesh.offset);
+			Matrix4 localTrans = Matrix4.CreateTranslation(parent.mesh.offset);
+			localTrans *= rotMatrix;
+			rotMatrix = Matrix4.CreateRotationX(parent.mesh.Rotation.X);
+			rotMatrix *= Matrix4.CreateRotationY(parent.mesh.Rotation.Y);
+			rotMatrix *= Matrix4.CreateRotationZ(parent.mesh.Rotation.Z);
 			LocalMatrix *= Matrix4.CreateScale(parent.mesh.scale);
-			LocalMatrix *= Matrix4.CreateRotationX(parent.mesh.Rotation.X);
-			LocalMatrix *= Matrix4.CreateRotationY(parent.mesh.Rotation.Y);
-			LocalMatrix *= Matrix4.CreateRotationZ(parent.mesh.Rotation.Z);
-			Console.WriteLine("Matrix: " + LocalMatrix);
+
 			Vector4 row0 = LocalMatrix.Row0;
-            //LocalMatrix = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
-            //LocalMatrix.Row0 = new Vector4((float)Math.Cos(Math.Acos(row0.X) + parent.mesh.Rotation.X), 0, (float)Math.Sin(Math.Asin(row0.Z)+parent.mesh.Rotation.X), (float)Math.Sin(Math.Asin(row0.W)+parent.mesh.Rotation.X));
+			//LocalMatrix = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
+			//LocalMatrix.Row0 = new Vector4((float)Math.Cos(Math.Acos(row0.X) + parent.mesh.Rotation.X), 0, (float)Math.Sin(Math.Asin(row0.Z)+parent.mesh.Rotation.X), (float)Math.Sin(Math.Asin(row0.W)+parent.mesh.Rotation.X));
 
-            parent.mesh.Render(shader, LocalMatrix, wood);
-            // render quad
+			parent.mesh.Render(shader, LocalMatrix * rotMatrix * localTrans * transMatrix, wood);
+			// render quad
 
-            foreach (Node child in parent.Children)
-                RenderChildren(child, LocalMatrix);
-        }
+			foreach (Node child in parent.Children)
+				RenderChildren(child, LocalMatrix, rotMatrix, localTrans*transMatrix);
+		}
     }
 }
