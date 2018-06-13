@@ -69,9 +69,8 @@ namespace Template_P3
             timer.Start();
 
             // prepare matrix for vertex shader
-            CamMatrix = Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), x);
-            CamMatrix *= Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), y);
-            CamMatrix *= Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), z);
+            CamMatrix = new Matrix4();
+            CamMatrix.Diagonal = new Vector4(1, 1, 1, 1);
             //Console.WriteLine(x);
 
 			// update rotation
@@ -145,13 +144,13 @@ namespace Template_P3
             if (keystate.IsKeyDown(Key.S))
                 RotateCamera(RotateSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.A))
-                RotateCamera(0, RotateSpeed, 0);
-            if (keystate.IsKeyDown(Key.D))
                 RotateCamera(0, -RotateSpeed, 0);
+            if (keystate.IsKeyDown(Key.D))
+                RotateCamera(0, RotateSpeed, 0);
             if (keystate.IsKeyDown(Key.Q))
-                RotateCamera(0, 0, RotateSpeed);
-            if (keystate.IsKeyDown(Key.E))
                 RotateCamera(0, 0, -RotateSpeed);
+            if (keystate.IsKeyDown(Key.E))
+                RotateCamera(0, 0, RotateSpeed);
 
         }
     }
