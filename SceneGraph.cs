@@ -87,10 +87,11 @@ namespace template_P3
 			//LocalMatrix = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
 			//LocalMatrix.Row0 = new Vector4((float)Math.Cos(Math.Acos(row0.X) + parent.mesh.Rotation.X), 0, (float)Math.Sin(Math.Asin(row0.Z)+parent.mesh.Rotation.X), (float)Math.Sin(Math.Asin(row0.W)+parent.mesh.Rotation.X));
 
-			parent.mesh.Render(shader, LocalMatrix * rotMatrix * localTrans * transMatrix, wood);
+			parent.mesh.Render(shader, LocalMatrix * rotMatrix * localTrans * transMatrix, wood, Game.ambientLightColor);
 			// render quad
 
-			foreach (Node child in parent.Children)
+
+            foreach (Node child in parent.Children)
 				RenderChildren(child, LocalMatrix, rotMatrix, localTrans*transMatrix);
 		}
     }

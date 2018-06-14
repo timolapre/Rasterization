@@ -57,7 +57,7 @@ namespace Template_P3
         }
 
         // render the mesh using the supplied shader and matrix
-        public void Render(Shader shader, Matrix4 transform, Texture texture)
+        public void Render(Shader shader, Matrix4 transform, Texture texture, Vector4 ambientLightColor)
         {
             // on first run, prepare buffers
             Prepare(shader);
@@ -83,6 +83,8 @@ namespace Template_P3
             transform *= Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), Game.x);
             transform *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
 			GL.UniformMatrix4(shader.uniform_mview, false, ref transform);
+            
+            GL.Uniform4(shader.uniformAmbientLightColor, ref ambientLightColor);
 
             // enable position, normal and uv attributes
             GL.EnableVertexAttribArray(shader.attribute_vpos);

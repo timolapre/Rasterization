@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using OpenTK.Graphics.OpenGL;
+using OpenTK;
 
 namespace Template_P3
 {
@@ -13,6 +14,7 @@ namespace Template_P3
         public int attribute_vnrm;
         public int attribute_vuvs;
         public int uniform_mview;
+        public int uniformAmbientLightColor;
         
 
         // constructor
@@ -30,6 +32,7 @@ namespace Template_P3
             attribute_vnrm = GL.GetAttribLocation(programID, "vNormal");
             attribute_vuvs = GL.GetAttribLocation(programID, "vUV");
             uniform_mview = GL.GetUniformLocation(programID, "transform");
+            uniformAmbientLightColor = GL.GetUniformLocation(programID, "ambLightColor");
             
         }
 
