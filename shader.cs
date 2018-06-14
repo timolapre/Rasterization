@@ -14,13 +14,8 @@ namespace Template_P3
         public int attribute_vnrm;
         public int attribute_vuvs;
         public int uniform_mview;
-<<<<<<< HEAD
         public int uniform_2wrld;
-
-=======
         public int uniformAmbientLightColor;
-        
->>>>>>> ba95c49a48c42916bb1ef35c4b43bec0b8e70536
 
         // constructor
         public Shader(String vertexShader, String fragmentShader)
@@ -37,13 +32,9 @@ namespace Template_P3
             attribute_vnrm = GL.GetAttribLocation(programID, "vNormal");
             attribute_vuvs = GL.GetAttribLocation(programID, "vUV");
             uniform_mview = GL.GetUniformLocation(programID, "transform");
-<<<<<<< HEAD
             uniform_2wrld = GL.GetUniformLocation(programID, "toWorld");
-
-=======
             uniformAmbientLightColor = GL.GetUniformLocation(programID, "ambLightColor");
             
->>>>>>> ba95c49a48c42916bb1ef35c4b43bec0b8e70536
         }
 
         // loading shaders
