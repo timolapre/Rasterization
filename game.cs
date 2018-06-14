@@ -70,6 +70,7 @@ namespace Template_P3
             screen.Print((int)(1000/frameDuration)+"", 2, 2, 0xffff00 );
             Mouse = OpenTK.Input.Mouse.GetState();
             //Console.WriteLine(Mouse.X + " " + MouseOldX);
+            sceneGraph.Tick();
             RotateCamera((float)(Mouse.Y-MouseOldY)/200,(float)(Mouse.X-MouseOldX)/200,0);
             MouseOldX = Mouse.X;
             MouseOldY = Mouse.Y;
