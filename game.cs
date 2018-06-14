@@ -168,29 +168,29 @@ namespace Template_P3
                 RotateCamera(0, 0, RotateSpeed);
 
             //Ambient Light Color adjustment
-            if (keystate.IsKeyDown(Key.P))
+            if (keystate.IsKeyDown(Key.Minus))
                 ambientLightColor.X += .05f;
-            if (keystate.IsKeyDown(Key.I))
+            if (keystate.IsKeyDown(Key.Number9))
                 ambientLightColor.X -= .05f;
-            if (keystate.IsKeyDown(Key.L))
+            if (keystate.IsKeyDown(Key.P))
                 ambientLightColor.Y += .05f;
-            if (keystate.IsKeyDown(Key.J))
+            if (keystate.IsKeyDown(Key.I))
                 ambientLightColor.Y -= .05f;
-            if (keystate.IsKeyDown(Key.Comma))
+            if (keystate.IsKeyDown(Key.L))
                 ambientLightColor.Z += .05f;
-            if (keystate.IsKeyDown(Key.N))
+            if (keystate.IsKeyDown(Key.J))
                 ambientLightColor.Z -= .05f;
-            if (keystate.IsKeyDown(Key.O))
+            if (keystate.IsKeyDown(Key.Number0))
             {
                 if (ambientLightColor.X != 1f) ambientLightColor.X = 1f;
                 else ambientLightColor.X = 0f;
             }
-            if (keystate.IsKeyDown(Key.K))
+            if (keystate.IsKeyDown(Key.O))
             {
                 if (ambientLightColor.Y != 1f) ambientLightColor.Y = 1f;
                 else ambientLightColor.Y = 0f;
             }
-            if (keystate.IsKeyDown(Key.M))
+            if (keystate.IsKeyDown(Key.K))
             {
                 if (ambientLightColor.Z != 1f) ambientLightColor.Z = 1f;
                 else ambientLightColor.Z = 0f;
