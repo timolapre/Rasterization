@@ -25,6 +25,8 @@ namespace Template_P3
         public static RenderTarget target;                    // intermediate render target
         public static ScreenQuad quad;                        // screen filling quad for post processing
 
+        public static Vector4 ambientLightColor = new Vector4(1.0f, 1.0f, 1.0f,0);
+
         public static SceneGraph sceneGraph = new SceneGraph();
         Matrix4 CamMatrix = new Matrix4();
         static public Vector3 CamPos = new Vector3(0, -4, -15);
@@ -167,6 +169,34 @@ namespace Template_P3
             if (keystate.IsKeyDown(Key.M))
                 RotateCamera(0, 0, RotateSpeed);
 
+            //Ambient Light Color adjustment
+            if (keystate.IsKeyDown(Key.P))
+                ambientLightColor.X += .05f;
+            if (keystate.IsKeyDown(Key.I))
+                ambientLightColor.X -= .05f;
+            if (keystate.IsKeyDown(Key.L))
+                ambientLightColor.Y += .05f;
+            if (keystate.IsKeyDown(Key.J))
+                ambientLightColor.Y -= .05f;
+            if (keystate.IsKeyDown(Key.Comma))
+                ambientLightColor.Z += .05f;
+            if (keystate.IsKeyDown(Key.N))
+                ambientLightColor.Z -= .05f;
+            if (keystate.IsKeyDown(Key.O))
+            {
+                if (ambientLightColor.X != 1f) ambientLightColor.X = 1f;
+                else ambientLightColor.X = 0f;
+            }
+            if (keystate.IsKeyDown(Key.K))
+            {
+                if (ambientLightColor.Y != 1f) ambientLightColor.Y = 1f;
+                else ambientLightColor.Y = 0f;
+            }
+            if (keystate.IsKeyDown(Key.M))
+            {
+                if (ambientLightColor.Z != 1f) ambientLightColor.Z = 1f;
+                else ambientLightColor.Z = 0f;
+            }
         }
     }
 
