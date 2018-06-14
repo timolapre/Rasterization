@@ -30,6 +30,12 @@ namespace Template_P3
         Matrix4 CamMatrix = new Matrix4();
         static public Vector3 CamPos = new Vector3(0, -4, -15);
 
+        MouseState Mouse;
+        int MouseX, MouseOldX;
+        int MouseY, MouseOldY;
+        float frameDuration;
+
+
         // initialize
         public void Init()
         {
@@ -57,21 +63,28 @@ namespace Template_P3
         public void Tick()
         {
             screen.Clear(0);
-            //screen.Print( "hello world", 2, 2, 0xffff00 );
+            screen.Print((int)(1000/frameDuration)+"", 2, 2, 0xffff00 );
+            Mouse = OpenTK.Input.Mouse.GetState();
+            //Console.WriteLine(Mouse.X + " " + MouseOldX);
+            RotateCamera((float)(Mouse.Y-MouseOldY)/200,(float)(Mouse.X-MouseOldX)/200,0);
+            MouseOldX = Mouse.X;
+            MouseOldY = Mouse.Y;
+
         }
 
         // tick for OpenGL rendering code
         public void RenderGL()
         {
             // measure frame duration
-            float frameDuration = timer.ElapsedMilliseconds;
+            frameDuration = timer.ElapsedMilliseconds;
             timer.Reset();
             timer.Start();
 
             // prepare matrix for vertex shader
             CamMatrix = new Matrix4();
             CamMatrix.Diagonal = new Vector4(1, 1, 1, 1);
-            Console.WriteLine(y);
+            //Console.WriteLine(y);
+            OpenTK.Input.Mouse.GetCursorState();
 
 			// update rotation
 			//a += 0.001f * frameDuration; 
@@ -101,7 +114,6 @@ namespace Template_P3
 			GetKeyInput();
             //new Render scene
             sceneGraph.Render(CamMatrix);
-
         }
 
         public void MoveCamera(float x, float y, float z)
@@ -120,18 +132,18 @@ namespace Template_P3
 
         public void GetKeyInput()
         {
-            float MoveSpeed = 0.35f;
+            float MoveSpeed = 0.5f;
             float RotateSpeed = 0.04f;
 
             KeyboardState keystate = Keyboard.GetState();
             //Move
-            if (keystate.IsKeyDown(Key.Down))
+            if (keystate.IsKeyDown(Key.S))
                 MoveCamera(0, 0, MoveSpeed);
-            if (keystate.IsKeyDown(Key.Up))
+            if (keystate.IsKeyDown(Key.W))
                 MoveCamera(0, 0, -MoveSpeed);
-            if (keystate.IsKeyDown(Key.Left))
+            if (keystate.IsKeyDown(Key.A))
                 MoveCamera(-MoveSpeed, 0, 0);
-            if (keystate.IsKeyDown(Key.Right))
+            if (keystate.IsKeyDown(Key.D))
                 MoveCamera(MoveSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.Space))
                 MoveCamera(0, MoveSpeed, 0);
@@ -140,17 +152,17 @@ namespace Template_P3
 
             //Rotate
             //x*(float)Math.Cos(Game.y)+z*(float)Math.Sin(Game.y)
-            if (keystate.IsKeyDown(Key.W))
+            if (keystate.IsKeyDown(Key.Up))
                 RotateCamera(-RotateSpeed, 0, 0);
-            if (keystate.IsKeyDown(Key.S))
+            if (keystate.IsKeyDown(Key.Down))
                 RotateCamera(RotateSpeed, 0, 0);
-            if (keystate.IsKeyDown(Key.A))
+            if (keystate.IsKeyDown(Key.Left))
                 RotateCamera(0, -RotateSpeed, 0);
-            if (keystate.IsKeyDown(Key.D))
+            if (keystate.IsKeyDown(Key.Right))
                 RotateCamera(0, RotateSpeed, 0);
-            if (keystate.IsKeyDown(Key.Q))
+            if (keystate.IsKeyDown(Key.N))
                 RotateCamera(0, 0, -RotateSpeed);
-            if (keystate.IsKeyDown(Key.E))
+            if (keystate.IsKeyDown(Key.M))
                 RotateCamera(0, 0, RotateSpeed);
 
         }

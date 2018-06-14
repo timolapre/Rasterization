@@ -29,7 +29,7 @@ namespace template_P3
 		public void Init()
 		{
             //Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, PI, 0), new Vector3(1, 1, 1)));
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 25; i++)
             {
                 Node Child2 = Child3;
                 Child3 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1f, 1, 1)));
