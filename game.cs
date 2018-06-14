@@ -4,6 +4,7 @@ using System.Drawing.Drawing2D;
 using OpenTK;
 using OpenTK.Input;
 using template_P3;
+using OpenTK.Graphics.ES30;
 
 // minimal OpenTK rendering framework for UU/INFOGR
 // Jacco Bikker, 2016
@@ -15,7 +16,6 @@ namespace Template_P3
     {
         // member variables
         public Surface screen;                  // background surface for printing etc.
-        Mesh mesh, floor;                       // a mesh to draw using OpenGL
         const float PI = 3.1415926535f;         // PI
         public static float x = 0, y = 0, z = 0;                            // teapot rotation angle
         Stopwatch timer;                        // timer for measuring frame duration
@@ -24,15 +24,13 @@ namespace Template_P3
         Texture wood;                           // texture to use for rendering
         public static RenderTarget target;                    // intermediate render target
         public static ScreenQuad quad;                        // screen filling quad for post processing
-        bool useRenderTarget = true;
 
         public static SceneGraph sceneGraph = new SceneGraph();
         Matrix4 CamMatrix = new Matrix4();
         static public Vector3 CamPos = new Vector3(0, -4, -15);
 
         MouseState Mouse;
-        int MouseX, MouseOldX;
-        int MouseY, MouseOldY;
+        int MouseOldX, MouseOldY;
         float frameDuration;
 
 
@@ -55,6 +53,10 @@ namespace Template_P3
             // create the render target
             target = new RenderTarget(screen.width, screen.height);
             quad = new ScreenQuad();
+
+            int lightID = GL.GetUniformLocation(shader.programID,"lightPos");
+            GL.UseProgram(shader.programID);
+            GL.Uniform3(lightID, 0.0f, 10.0f, 0.0f);
 
             sceneGraph.Init();
         }
