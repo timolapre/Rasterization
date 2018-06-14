@@ -74,11 +74,14 @@ namespace Template_P3
             // enable shader
             GL.UseProgram(shader.programID);
 
-			// pass transform to vertex shader
-			//transform.Row1 = new Vector4(0,transform.Row1.Y,0,1);
-			//Console.WriteLine(transform.Row1);
-			transform *= Matrix4.CreateTranslation(Game.CamPos.X, Game.CamPos.Y, Game.CamPos.Z);
-			transform *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
+            // pass transform to vertex shader
+            //transform.Row1 = new Vector4(0,transform.Row1.Y,0,1);
+            //Console.WriteLine(transform.Row1);
+            transform *= Matrix4.CreateTranslation(Game.CamPos.X, Game.CamPos.Y, Game.CamPos.Z);
+            transform *= Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), Game.z);
+            transform *= Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), Game.y);
+            transform *= Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), Game.x);
+            transform *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
 			GL.UniformMatrix4(shader.uniform_mview, false, ref transform);
 
             // enable position, normal and uv attributes
