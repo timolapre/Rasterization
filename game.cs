@@ -71,7 +71,7 @@ namespace Template_P3
             // prepare matrix for vertex shader
             CamMatrix = new Matrix4();
             CamMatrix.Diagonal = new Vector4(1, 1, 1, 1);
-            //Console.WriteLine(x);
+            Console.WriteLine(y);
 
 			// update rotation
 			//a += 0.001f * frameDuration; 
@@ -106,7 +106,7 @@ namespace Template_P3
 
         public void MoveCamera(float x, float y, float z)
         {
-            CamPos -= new Vector3(x, y, z);
+            CamPos -= new Vector3(z*(float)Math.Cos(Game.y+0.5*PI) + x * (float)Math.Cos(Game.y), y, z*(float)Math.Sin(Game.y+0.5*PI)+ x * (float)Math.Sin(Game.y));
         }
 
         public void RotateCamera(float x, float y, float z)
@@ -120,8 +120,8 @@ namespace Template_P3
 
         public void GetKeyInput()
         {
-            float MoveSpeed = 0.2f;
-            float RotateSpeed = 0.01f;
+            float MoveSpeed = 0.35f;
+            float RotateSpeed = 0.04f;
 
             KeyboardState keystate = Keyboard.GetState();
             //Move
@@ -139,6 +139,7 @@ namespace Template_P3
                 MoveCamera(0, -MoveSpeed, 0);
 
             //Rotate
+            //x*(float)Math.Cos(Game.y)+z*(float)Math.Sin(Game.y)
             if (keystate.IsKeyDown(Key.W))
                 RotateCamera(-RotateSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.S))
