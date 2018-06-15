@@ -27,18 +27,18 @@ namespace template_P3
 		public void Init()
 		{
             //Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, PI, 0), new Vector3(1, 1, 1)));
-            /*for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 50; i++)
             {
                 Node Child2 = Child3;
-                Child3 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1f, 1, 1)));
+                Child3 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1f, 1, 1), new Vector3(0,.01f,0)));
                 if (i == 0)
                     Child = Child3;
                 Child2.AddChild(Child3);
                 childlist.Add(Child3);
                 
-            }*/
-            Node newChild = new Node(new Mesh("../../assets/Mario/Courses/AC/Animal Crossing - Summer.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0), new Vector3(1,1,1)));
-            //Scene.AddChild(Child);
+            }
+            Node newChild = new Node(new Mesh("../../assets/teapot.obj", new Vector3(5, 0, 50), new Vector3(0, 0, 0), new Vector3(5f, 5, 5)));
+            Scene.AddChild(Child);
             Scene.AddChild(newChild);
 
             /*Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(-10, 0, 0), new Vector3(0, PI, 0), new Vector3(1,1,1)));
@@ -55,13 +55,20 @@ namespace template_P3
 			Scene.AddChild(Child);*/
         }
 
+        public void Tick()
+        {
+            foreach (Node child in Scene.Children)
+            {
+                Physics(child);
+                //item.mesh.Rotation.Y += .01f;
+            }
+            //Child.mesh.Rotation.Y += .01f;
+            
+        }
+
         public void Render(Matrix4 CameraMatrix)
         {
-            /*foreach (var item in childlist)
-            {
-                item.mesh.Rotation.Y += .01f;
-            }
-			Child.mesh.Rotation.Y += .01f;*/
+            
 			//Child3.mesh.Rotation.Y += .05f;
             //Game.target.Bind();
 			Matrix4 plainMatrix = new Matrix4();
@@ -90,5 +97,16 @@ namespace template_P3
             foreach (Node child in parent.Children)
 				RenderChildren(child, LocalMatrix, rotMatrix, localTrans*transMatrix);
 		}
+
+        public void Physics(Node parent)
+        {
+            parent.mesh.Rotation += parent.mesh.rotVelocity;
+            parent.mesh.offset += parent.mesh.posVelocity;
+           
+            foreach (Node child in parent.Children)
+            {
+                Physics(child);
+            }
+        }
     }
 }

@@ -55,10 +55,10 @@ namespace Template_P3
             // create the render target
             target = new RenderTarget(screen.width, screen.height);
             quad = new ScreenQuad();
-
+ 
             int lightID = GL.GetUniformLocation(shader.programID,"lightPos");
             GL.UseProgram(shader.programID);
-            GL.Uniform3(lightID, 0.0f, 10.0f, 0.0f);
+            GL.Uniform3(lightID, 0.0f, 0.0f, 0.0f);
 
             sceneGraph.Init();
         }
@@ -70,6 +70,7 @@ namespace Template_P3
             screen.Print((int)(1000/frameDuration)+"", 2, 2, 0xffff00 );
             Mouse = OpenTK.Input.Mouse.GetState();
             //Console.WriteLine(Mouse.X + " " + MouseOldX);
+            sceneGraph.Tick();
             RotateCamera((float)(Mouse.Y-MouseOldY)/200,(float)(Mouse.X-MouseOldX)/200,0);
             MouseOldX = Mouse.X;
             MouseOldY = Mouse.Y;
@@ -127,8 +128,6 @@ namespace Template_P3
 
         public void RotateCamera(float x, float y, float z)
         {
-            //Add some amazing code to rotate camera (or actually the world around the camera)
-            ///voor nu ff deze mooie rotatie
             Game.x += x;
             Game.y += y;
             Game.z += z;
@@ -136,7 +135,7 @@ namespace Template_P3
 
         public void GetKeyInput()
         {
-            float MoveSpeed = 0.5f;
+            float MoveSpeed = 0.7f;
             float RotateSpeed = 0.04f;
 
             KeyboardState keystate = Keyboard.GetState();
@@ -155,7 +154,6 @@ namespace Template_P3
                 MoveCamera(0, -MoveSpeed, 0);
 
             //Rotate
-            //x*(float)Math.Cos(Game.y)+z*(float)Math.Sin(Game.y)
             if (keystate.IsKeyDown(Key.Up))
                 RotateCamera(-RotateSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.Down))

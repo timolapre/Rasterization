@@ -23,13 +23,19 @@ namespace Template_P3
         public Vector3 offset;
         public Vector3 Rotation;
 		public Vector3 scale;
+        public Vector3 rotVelocity;
+        public Vector3 posVelocity;
 
         // constructor
-        public Mesh(string fileName, Vector3 position, Vector3 Rotation, Vector3 scale)
+        public Mesh(string fileName, Vector3 position, Vector3 Rotation, Vector3 scale, Vector3 RotationalVelocity = new Vector3(), Vector3 Velocity = new Vector3())
         {
             offset = position;// +parent.mesh.offset;
             this.Rotation = Rotation;
 			this.scale = scale;
+
+            //physics implementation
+            rotVelocity = RotationalVelocity;
+            posVelocity = Velocity;
 
             MeshLoader loader = new MeshLoader();
             loader.Load(this, fileName);
@@ -59,6 +65,7 @@ namespace Template_P3
         // render the mesh using the supplied shader and matrix
         public void Render(Shader shader, Matrix4 transform, Texture texture)
         {
+            
             // on first run, prepare buffers
             Prepare(shader);
 
