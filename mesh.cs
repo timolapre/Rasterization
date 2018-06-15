@@ -9,7 +9,7 @@ namespace Template_P3
 
     // mesh and loader based on work by JTalton; http://www.opentk.com/node/642
 
-    public class Mesh
+    public class Mesh : IMesh
     {
         // data members
         public ObjVertex[] vertices;            // vertex positions, model space
@@ -85,7 +85,8 @@ namespace Template_P3
             transform *= Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), Game.x);
             transform *= Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
             GL.UniformMatrix4(shader.uniform_mview, false, ref transform);
-            GL.UniformMatrix4(shader.uniform_2wrld, false, ref toWorld);
+            GL.UniformMatrix4(shader.uniform_2wrld, false, ref toWorld);
+
             // enable position, normal and uv attributes
             GL.EnableVertexAttribArray(shader.attribute_vpos);
             GL.EnableVertexAttribArray(shader.attribute_vnrm);

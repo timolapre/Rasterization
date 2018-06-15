@@ -69,6 +69,7 @@
     <Compile Include="game.cs" />
     <Compile Include="Light.cs" />
     <Compile Include="mesh.cs" />
+    <Compile Include="MeshGroup.cs" />
     <Compile Include="meshLoader.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="quad.cs" />
