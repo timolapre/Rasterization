@@ -40,6 +40,20 @@ namespace Template_P3
 
 			MeshLoader loader = new MeshLoader();
 			loader.Load(this, fileName);
+			meshes.Capacity = meshes.Count;
+		}
+
+		MeshGroup(MeshGroup mg)
+		{
+			offset = mg.offset;// +parent.mesh.offset;
+			this.Rotation = mg.Rotation;
+			this.scale = mg.scale;
+
+			//physics implementation
+			rotVelocity = mg.rotVelocity;
+			posVelocity = mg.posVelocity;
+
+			meshes = mg.meshes;
 		}
 
 		public void AddMesh(Mesh mesh)
@@ -53,6 +67,11 @@ namespace Template_P3
 			{
 				meshes[i].Render(shader, transform, meshes[i].texture);
 			}
+		}
+
+		public MeshGroup Copy()
+		{
+			return new MeshGroup(this);
 		}
 	}
 }

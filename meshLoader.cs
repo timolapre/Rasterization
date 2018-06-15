@@ -24,7 +24,7 @@ namespace Template_P3 {
         }
 
 		bool ignoreMaterials = false;
-        int uiCurMaterial = 0;
+        int uiCurMaterial = 1;
         Dictionary<string, Texture> Materials;
 
         char[] splitCharacters = new char[] { ' ' };
@@ -70,8 +70,7 @@ namespace Template_P3 {
                         for (int i = 2; i < parameters.Length; i++)
                             Kd += " " + parameters[i];
                         Materials[currentMaterialName] = new Texture("../../assets/AC/" + Kd);
-                        if (File.Exists("../../assets/AC/" + Kd))
-                            Console.WriteLine("../../assets/AC/" + Kd);
+                        Console.WriteLine("../../assets/AC/" + Kd);
                         break;
                 }
             }
@@ -144,7 +143,7 @@ namespace Template_P3 {
 						for (int i = 1; i < parameters.Length; i++)
 							umtl += parameters[i];
 						if (ignoreMaterials)
-							uiCurMaterial = 0;
+							uiCurMaterial = 1;
 						else
 							uiCurMaterial = Materials[umtl].id;
 						break;
@@ -169,7 +168,7 @@ namespace Template_P3 {
 						break;
 				}
 			}
-			Console.WriteLine(uiCurMaterial);
+			Console.WriteLine();
 			mesh.vertices = objVertices.ToArray();
 			mesh.triangles = objTriangles.ToArray();
 			mesh.quads = objQuads.ToArray();
