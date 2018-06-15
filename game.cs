@@ -58,7 +58,7 @@ namespace Template_P3
  
             int lightID = GL.GetUniformLocation(shader.programID,"lightPos");
             GL.UseProgram(shader.programID);
-            GL.Uniform3(lightID, 0.0f, 0.0f, 0.0f);
+            GL.Uniform3(lightID, 0.0f, 20.0f, 0.0f);
 
             sceneGraph.Init();
         }
