@@ -15,36 +15,31 @@ namespace Template_P3
         public ObjVertex[] vertices;            // vertex positions, model space
         public ObjTriangle[] triangles;         // triangles (3 vertex indices)
         public ObjQuad[] quads;                 // quads (4 vertex indices)
+		public int texture;
         int vertexBufferId;                     // vertex buffer
         int triangleBufferId;                   // triangle buffer
         int quadBufferId;						// quad buffer
         public Matrix4 ModelView;
 
-        public Vector3 offset;
-        public Vector3 Rotation;
-		public Vector3 scale;
-        public Vector3 rotVelocity;
-        public Vector3 posVelocity;
+        public Vector3 offset { get; set; }
+		public Vector3 Rotation { get; set; }
+		public Vector3 scale { get; set; }
+		public Vector3 rotVelocity { get; set; }
+		public Vector3 posVelocity { get; set; }
 
-        // constructor
-        public Mesh(string fileName, Vector3 position, Vector3 Rotation, Vector3 scale, Vector3 RotationalVelocity = new Vector3(), Vector3 Velocity = new Vector3())
+		// constructor
+		public Mesh(ObjVertex[] vertices, ObjTriangle[] triangles, ObjQuad[] quads, int texture)
         {
-            offset = position;// +parent.mesh.offset;
-            this.Rotation = Rotation;
-			this.scale = scale;
-
-            //physics implementation
-            rotVelocity = RotationalVelocity;
-            posVelocity = Velocity;
-
-            MeshLoader loader = new MeshLoader();
-            loader.Load(this, fileName);
-        }
+			this.vertices = vertices;
+			this.triangles = triangles;
+			this.quads = quads;
+			this.texture = texture;
+		}
 
 		// initialization; called during first render
 		public void Prepare(Shader shader)
         {
-            if (vertexBufferId == 0)
+			if (vertexBufferId == 0)
             {
                 // generate interleaved vertex data (uv/normal/position (total 8 floats) per vertex)
                 GL.GenBuffers(1, out vertexBufferId);
@@ -63,7 +58,7 @@ namespace Template_P3
         }
 
         // render the mesh using the supplied shader and matrix
-        public void Render(Shader shader, Matrix4 transform, Texture texture)
+        public void Render(Shader shader, Matrix4 transform, int texture)
         {
             
             // on first run, prepare buffers
@@ -76,7 +71,7 @@ namespace Template_P3
             int texLoc = GL.GetUniformLocation(shader.programID, "pixels");
             GL.Uniform1(texLoc, 0);
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, texture.id);
+			GL.BindTexture(TextureTarget.Texture2D, texture);
 
             // enable shader
             GL.UseProgram(shader.programID);

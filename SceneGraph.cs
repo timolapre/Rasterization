@@ -26,19 +26,20 @@ namespace template_P3
         List<Node> childlist = new List<Node>();
 		public void Init()
 		{
-            //Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, PI, 0), new Vector3(1, 1, 1)));
-            for (int i = 0; i < 50; i++)
+			//Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, PI, 0), new Vector3(1, 1, 1)));
+			Child3 = new Node(new MeshGroup("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1f, 1, 1), new Vector3(0, .01f, 0)));
+			for (int i = 0; i < 1410; i++)
             {
                 Node Child2 = Child3;
-                Child3 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1f, 1, 1), new Vector3(0,.01f,0)));
+                Child3 = new Node(Child3.mesh.Copy());
                 if (i == 0)
                     Child = Child3;
                 Child2.AddChild(Child3);
                 childlist.Add(Child3);
                 
             }
-            Node newChild = new Node(new Mesh("../../assets/teapot.obj", new Vector3(5, 0, 50), new Vector3(0, 0, 0), new Vector3(5f, 5, 5)));
-            Scene.AddChild(Child);
+			Scene.AddChild(Child);
+			Node newChild = new Node(new MeshGroup("../../assets/AC/Animal Crossing - Summer.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
             Scene.AddChild(newChild);
 
             /*Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(-10, 0, 0), new Vector3(0, PI, 0), new Vector3(1,1,1)));
