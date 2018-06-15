@@ -20,14 +20,12 @@ namespace template_P3
         // load a texture
         Texture wood = new Texture("../../assets/wood.jpg");
         Stopwatch timer = new Stopwatch();
-
-		Node Child = new Node(null);
-		Node Child3 = new Node(null);
+		
         List<Node> childlist = new List<Node>();
 		public void Init()
 		{
-			//Child = new Node(new Mesh("../../assets/teapot.obj", new Vector3(0, 0, 0), new Vector3(0, PI, 0), new Vector3(1, 1, 1)));
-			Child3 = new Node(new MeshGroup("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1f, 1, 1), new Vector3(0, .01f, 0)));
+			Node Child = new Node(null);
+			Node Child3 = new Node(new MeshGroup("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1f, 1, 1), new Vector3(0, .01f, 0)));
 			for (int i = 0; i < 1410; i++)
             {
                 Node Child2 = Child3;
@@ -39,10 +37,32 @@ namespace template_P3
                 
             }
 			Scene.AddChild(Child);
+
+			//Track
 			Node newChild = new Node(new MeshGroup("../../assets/AC/Animal Crossing - Summer.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
             Scene.AddChild(newChild);
 
-            /*Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(-10, 0, 0), new Vector3(0, PI, 0), new Vector3(1,1,1)));
+			//Kart
+			newChild = new Node(new MeshGroup("../../assets/Kart/Standard Kart.obj", new Vector3(-20, 1, -17), new Vector3(0, .5f*PI, 0), new Vector3(.5f, .5f, .5f)));
+			Child = new Node(new MeshGroup("../../assets/Kart/Leaf Tire.obj", new Vector3(-.2f, -.15f, .36f), new Vector3(0, 0, 0), new Vector3(8,8,8)));
+			newChild.AddChild(Child);
+			Child = new Node(Child.mesh.Copy());
+			Child.mesh.offset.X = .2f;
+			Child.mesh.Rotation.Y = PI;
+			newChild.AddChild(Child);
+			Child = new Node(Child.mesh.Copy());
+			Child.mesh.offset.X = .225f;
+			Child.mesh.offset.Z = -.18f;
+			Child.mesh.offset.Y = -.16f;
+			Child.mesh.scale = new Vector3(10, 10, 10);
+			newChild.AddChild(Child);
+			Child = new Node(Child.mesh.Copy());
+			Child.mesh.offset.X = -.225f;
+			Child.mesh.Rotation.Y = 0;
+			newChild.AddChild(Child);
+			Scene.AddChild(newChild);
+
+			/*Child = new Node(new Mesh("../../assets/floor.obj", new Vector3(-10, 0, 0), new Vector3(0, PI, 0), new Vector3(1,1,1)));
 			Node Child2 = new Node(new Mesh("../../assets/teapot.obj", new Vector3(-2, -1.9f, 0), new Vector3(0, 0, 0), new Vector3(1,1,1)));
 			Child.AddChild(Child2);
 			Scene.AddChild(Child);
@@ -54,7 +74,7 @@ namespace template_P3
 			Child2.AddChild(Child3);
 			Child.AddChild(Child2);
 			Scene.AddChild(Child);*/
-        }
+		}
 
         public void Tick()
         {

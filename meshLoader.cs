@@ -15,6 +15,7 @@ namespace Template_P3 {
             {
                 using (StreamReader streamReader = new StreamReader(fileName))
                 {
+					filepath = fileName.Substring(0,fileName.LastIndexOf("/")+1);
                     Load(mesh, streamReader);
                     streamReader.Close();
                     return true;
@@ -22,6 +23,8 @@ namespace Template_P3 {
             }
             catch { return false; }
         }
+
+		string filepath;
 
 		bool ignoreMaterials = false;
         int uiCurMaterial = 1;
@@ -38,7 +41,7 @@ namespace Template_P3 {
 
         void LoadMTLFile(string mtl)
         {
-            mtl = "../../assets/AC/" + mtl;
+            mtl = filepath + mtl;
             if (!File.Exists(mtl))
             {
                 ignoreMaterials = true;
@@ -69,8 +72,8 @@ namespace Template_P3 {
                         string Kd = parameters[1];
                         for (int i = 2; i < parameters.Length; i++)
                             Kd += " " + parameters[i];
-                        Materials[currentMaterialName] = new Texture("../../assets/AC/" + Kd);
-                        Console.WriteLine("../../assets/AC/" + Kd);
+                        Materials[currentMaterialName] = new Texture(filepath + Kd);
+                        Console.WriteLine(filepath + Kd);
                         break;
                 }
             }

@@ -1,0 +1,24 @@
+# Blender MTL File: 'Import Scene.blend'
+# Material Count: 2
+
+newmtl m_Body
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni -1.000000
+d 0.000000
+illum 1
+map_Kd bodyk_std_wlg_alb.png
+map_d bodyk_std_wlg_alb.png
+
+newmtl m_Body.002
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni -1.000000
+d 0.000000
+illum 1
+map_Kd Emblems/Waluigi.png
+map_d Emblems/Waluigi.png

@@ -7,24 +7,13 @@ using OpenTK;
 
 namespace Template_P3
 {
-    public interface IMesh
+	public class MeshGroup
 	{
-		Vector3 offset { get; set; }
-		Vector3 Rotation { get; set; }
-		Vector3 scale { get; set; }
-		Vector3 rotVelocity { get; set; }
-		Vector3 posVelocity { get; set; }
-
-		void Render(Shader shader, Matrix4 transform, Texture texture = null);
-    }
-
-	public class MeshGroup : IMesh
-	{
-		public Vector3 offset { get; set; }
-		public Vector3 Rotation { get; set; }
-		public Vector3 scale { get; set; }
-		public Vector3 rotVelocity { get; set; }
-		public Vector3 posVelocity { get; set; }
+		public Vector3 offset;
+		public Vector3 Rotation;
+		public Vector3 scale;
+		public Vector3 rotVelocity;
+		public Vector3 posVelocity;
 
 		List<Mesh> meshes = new List<Mesh>();
 
