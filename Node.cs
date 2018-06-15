@@ -9,10 +9,10 @@ namespace template_P3
 {
     public class Node
     {
-        public Mesh mesh;
+        public IMesh mesh;
         public List<Node> Children;
 
-        public Node(Mesh mesh, List<Node> Children = null)
+        public Node(IMesh mesh, List<Node> Children = null)
         {
             this.mesh = mesh;
             if (Children == null)

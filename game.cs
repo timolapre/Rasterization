@@ -135,7 +135,7 @@ namespace Template_P3
 
         public void GetKeyInput()
         {
-            float MoveSpeed = 0.7f;
+            float MoveSpeed = 0.1f;
             float RotateSpeed = 0.04f;
 
             KeyboardState keystate = Keyboard.GetState();

@@ -9,7 +9,7 @@ namespace Template_P3 {
 
     public class MeshLoader
     {
-        public bool Load(Mesh mesh, string fileName)
+        public bool Load(MeshGroup mesh, string fileName)
         {
             try
             {
@@ -23,8 +23,8 @@ namespace Template_P3 {
             catch { return false; }
         }
 
-        bool ignoreMaterials = false;
-        Texture uiCurMaterial = null;
+		bool ignoreMaterials = false;
+        int uiCurMaterial = 0;
         Dictionary<string, Texture> Materials;
 
         char[] splitCharacters = new char[] { ' ' };
@@ -35,11 +35,10 @@ namespace Template_P3 {
         List<Mesh.ObjVertex> objVertices;
         List<Mesh.ObjTriangle> objTriangles;
         List<Mesh.ObjQuad> objQuads;
-        List<int> objTextures;
 
         void LoadMTLFile(string mtl)
         {
-            mtl = "../../assets/Mario/Courses/AC/" + mtl;
+            mtl = "../../assets/AC/" + mtl;
             if (!File.Exists(mtl))
             {
                 ignoreMaterials = true;
@@ -70,99 +69,118 @@ namespace Template_P3 {
                         string Kd = parameters[1];
                         for (int i = 2; i < parameters.Length; i++)
                             Kd += " " + parameters[i];
-                        Materials[currentMaterialName] = new Texture("../../assets/Mario/Courses/AC/"+Kd);
-                        if (File.Exists("../../assets/Mario/Courses/AC/" + Kd))
-                            Console.WriteLine("../../assets/Mario/Courses/AC/" + Kd);
+                        Materials[currentMaterialName] = new Texture("../../assets/AC/" + Kd);
+                        if (File.Exists("../../assets/AC/" + Kd))
+                            Console.WriteLine("../../assets/AC/" + Kd);
                         break;
                 }
             }
         }
 
-        void Load(Mesh mesh, TextReader textReader)
+        void Load(MeshGroup meshgroup, TextReader textReader)
         {
+			Mesh mesh = new Mesh(null, null, null, 0);
             vertices = new List<Vector3>();
             normals = new List<Vector3>();
             texCoords = new List<Vector2>();
             objVertices = new List<Mesh.ObjVertex>();
             objTriangles = new List<Mesh.ObjTriangle>();
             objQuads = new List<Mesh.ObjQuad>();
-            objTextures = new List<int>();
-            string line;
+			int firsto = 0;
+			string line;
             while ((line = textReader.ReadLine()) != null)
             {
                 line = line.Trim(splitCharacters);
                 line = line.Replace("  ", " ");
                 string[] parameters = line.Split(splitCharacters);
-                switch (parameters[0])
-                {
-                    case "p": // point
-                        break;
-                    case "v": // vertex
-                        float x = float.Parse(parameters[1]);
-                        float y = float.Parse(parameters[2]);
-                        float z = float.Parse(parameters[3]);
-                        vertices.Add(new Vector3(x, y, z));
-                        break;
-                    case "vt": // texCoord
-                        float u = float.Parse(parameters[1]);
-                        float v = float.Parse(parameters[2]);
-                        texCoords.Add(new Vector2(u, v));
-                        break;
-                    case "vn": // normal
-                        float nx = float.Parse(parameters[1]);
-                        float ny = float.Parse(parameters[2]);
-                        float nz = float.Parse(parameters[3]);
-                        normals.Add(new Vector3(nx, ny, nz));
-                        break;
-                    case "f":
-                        switch (parameters.Length)
-                        {
-                            case 4:
-                                Mesh.ObjTriangle objTriangle = new Mesh.ObjTriangle();
-                                objTriangle.Index0 = ParseFaceParameter(parameters[1]);
-                                objTriangle.Index1 = ParseFaceParameter(parameters[2]);
-                                objTriangle.Index2 = ParseFaceParameter(parameters[3]);
-                                objTriangles.Add(objTriangle);
-                                objTextures.Add(uiCurMaterial == null ? 1 : uiCurMaterial.id);
-                                break;
-                            case 5:
-                                Mesh.ObjQuad objQuad = new Mesh.ObjQuad();
-                                objQuad.Index0 = ParseFaceParameter(parameters[1]);
-                                objQuad.Index1 = ParseFaceParameter(parameters[2]);
-                                objQuad.Index2 = ParseFaceParameter(parameters[3]);
-                                objQuad.Index3 = ParseFaceParameter(parameters[4]);
-                                objTextures.Add(uiCurMaterial == null ? 1 : uiCurMaterial.id);
-                                break;
-                        }
-                        break;
-                    case "mtllib":
-                        string mtl = parameters[1];
-                        for (int i = 2; i < parameters.Length; i++)
-                            mtl += " " + parameters[i];
-                        LoadMTLFile(mtl);
-                        break;
-                    case "usemtl":
-                        string umtl = "";
-                        for (int i = 1; i < parameters.Length; i++)
-                            umtl += parameters[i];
-                        if (ignoreMaterials)
-                            uiCurMaterial = null;
-                        else
-                            uiCurMaterial = Materials[umtl];
-                        break;
-                }
-            }
-            mesh.vertices = objVertices.ToArray();
-            mesh.triangles = objTriangles.ToArray();
-            mesh.quads = objQuads.ToArray();
-            mesh.textures = objTextures.ToArray();
-            vertices = null;
+				switch (parameters[0])
+				{
+					case "p": // point
+						break;
+					case "v": // vertex
+						float x = float.Parse(parameters[1]);
+						float y = float.Parse(parameters[2]);
+						float z = float.Parse(parameters[3]);
+						vertices.Add(new Vector3(x, y, z));
+						break;
+					case "vt": // texCoord
+						float u = float.Parse(parameters[1]);
+						float v = float.Parse(parameters[2]);
+						texCoords.Add(new Vector2(u, v));
+						break;
+					case "vn": // normal
+						float nx = float.Parse(parameters[1]);
+						float ny = float.Parse(parameters[2]);
+						float nz = float.Parse(parameters[3]);
+						normals.Add(new Vector3(nx, ny, nz));
+						break;
+					case "f":
+						switch (parameters.Length)
+						{
+							case 4:
+								Mesh.ObjTriangle objTriangle = new Mesh.ObjTriangle();
+								objTriangle.Index0 = ParseFaceParameter(parameters[1]);
+								objTriangle.Index1 = ParseFaceParameter(parameters[2]);
+								objTriangle.Index2 = ParseFaceParameter(parameters[3]);
+								objTriangles.Add(objTriangle);
+								break;
+							case 5:
+								Mesh.ObjQuad objQuad = new Mesh.ObjQuad();
+								objQuad.Index0 = ParseFaceParameter(parameters[1]);
+								objQuad.Index1 = ParseFaceParameter(parameters[2]);
+								objQuad.Index2 = ParseFaceParameter(parameters[3]);
+								objQuad.Index3 = ParseFaceParameter(parameters[4]);
+								break;
+						}
+						break;
+					case "mtllib":
+						string mtl = parameters[1];
+						for (int i = 2; i < parameters.Length; i++)
+							mtl += " " + parameters[i];
+						LoadMTLFile(mtl);
+						break;
+					case "usemtl":
+						string umtl = "";
+						for (int i = 1; i < parameters.Length; i++)
+							umtl += parameters[i];
+						if (ignoreMaterials)
+							uiCurMaterial = 0;
+						else
+							uiCurMaterial = Materials[umtl].id;
+						break;
+					case "o":
+						Console.WriteLine(parameters[1]);
+						if (firsto > 0)
+						{
+							mesh.vertices = objVertices.ToArray();
+							mesh.triangles = objTriangles.ToArray();
+							mesh.quads = objQuads.ToArray();
+							mesh.texture = uiCurMaterial;
+							meshgroup.AddMesh(mesh);
+						}
+						mesh = new Mesh(null, null, null, 0);
+						firsto++;
+						//vertices = new List<Vector3>();
+						//normals = new List<Vector3>();
+						//texCoords = new List<Vector2>();
+						objVertices = new List<Mesh.ObjVertex>();
+						objTriangles = new List<Mesh.ObjTriangle>();
+						objQuads = new List<Mesh.ObjQuad>();
+						break;
+				}
+			}
+			Console.WriteLine(uiCurMaterial);
+			mesh.vertices = objVertices.ToArray();
+			mesh.triangles = objTriangles.ToArray();
+			mesh.quads = objQuads.ToArray();
+			mesh.texture = uiCurMaterial;
+			meshgroup.AddMesh(mesh);
+			vertices = null;
             normals = null;
             texCoords = null;
             objVertices = null;
             objTriangles = null;
             objQuads = null;
-            objTextures = null;
         }
 
         char[] faceParamaterSplitter = new char[] { '/' };
