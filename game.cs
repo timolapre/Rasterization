@@ -55,13 +55,9 @@ namespace Template_P3
             // create the render target
             target = new RenderTarget(screen.width, screen.height);
             quad = new ScreenQuad();
- 
-            int lightID = GL.GetUniformLocation(shader.programID,"lightPos");
-            GL.UseProgram(shader.programID);
-            GL.Uniform3(lightID, 0.0f, 20.0f, 0.0f);
 
             sceneGraph.Init();
-        }
+		}
 
         // tick for background surface
         public void Tick()
@@ -74,8 +70,7 @@ namespace Template_P3
             RotateCamera((float)(Mouse.Y-MouseOldY)/200,(float)(Mouse.X-MouseOldX)/200,0);
             MouseOldX = Mouse.X;
             MouseOldY = Mouse.Y;
-
-        }
+		}
 
         // tick for OpenGL rendering code
         public void RenderGL()

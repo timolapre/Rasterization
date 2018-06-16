@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Template_P3;
 
+using OpenTK.Graphics.ES30;
+
 namespace template_P3
 {
     public class SceneGraph
@@ -24,6 +26,10 @@ namespace template_P3
         List<Node> childlist = new List<Node>();
 		public void Init()
 		{
+			int lightID = GL.GetUniformLocation(shader.programID, "lightPos");
+			GL.UseProgram(shader.programID);
+			GL.Uniform3(lightID, -100.0f, 100.0f, -20.0f);
+
 			Node Child = new Node(null);
 			Node Child3 = new Node(new MeshGroup("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1f, 1, 1), new Vector3(0, .01f, 0)));
 			for (int i = 0; i < 10; i++)

@@ -11,7 +11,6 @@ out vec4 worldPos;
 out vec2 uv;				
 uniform mat4 transform;
 uniform mat4 toWorld;		// model space to world space
-//uniform vec3 ambientLightColor
  
 // vertex shader
 void main()
@@ -22,6 +21,5 @@ void main()
 	normal = toWorld * vec4( vNormal, 0.0f );
 
 	// forward normal and uv coordinate; will be interpolated over triangle
-	normal = transform * vec4( vNormal, 0.0f );
 	uv = vUV;
 }
