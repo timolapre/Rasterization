@@ -17,7 +17,7 @@ namespace Template_P3
         // member variables
         public Surface screen;                  // background surface for printing etc.
         const float PI = 3.1415926535f;         // PI
-        public static float x = 0, y = 0, z = 0;                            // teapot rotation angle
+        public static float x = 0, y = 3.1415926535f*0.5f, z = 0;                            // teapot rotation angle
         Stopwatch timer;                        // timer for measuring frame duration
         Shader shader;                          // shader to use for rendering
         public static Shader postproc;                        // shader to use for post processing
@@ -29,7 +29,7 @@ namespace Template_P3
 
         public static SceneGraph sceneGraph = new SceneGraph();
         Matrix4 CamMatrix = new Matrix4();
-        static public Vector3 CamPos = new Vector3(0, -4, -15);
+        static public Vector3 CamPos = new Vector3(20.1f, -1.4f, 17);
 
         MouseState Mouse;
         int MouseOldX, MouseOldY;
@@ -63,7 +63,7 @@ namespace Template_P3
         public void Tick()
         {
             screen.Clear(0);
-            screen.Print((int)(1000/frameDuration)+"", 2, 2, 0xffff00 );
+            screen.Print((int)(1000/frameDuration)+" "/*+CamPos.X+" "+CamPos.Y+" "+CamPos.Z*/, 2, 2, 0xffff00 );
             Mouse = OpenTK.Input.Mouse.GetState();
             //Console.WriteLine(Mouse.X + " " + MouseOldX);
             sceneGraph.Tick();
@@ -130,10 +130,20 @@ namespace Template_P3
 
         public void GetKeyInput()
         {
-            float MoveSpeed = 0.1f;
-            float RotateSpeed = 0.04f;
+            float MoveSpeed;
+            float RotateSpeed;
 
             KeyboardState keystate = Keyboard.GetState();
+            if (keystate.IsKeyDown(Key.LControl))
+            {
+                MoveSpeed = 0.05f;
+                RotateSpeed = 0.01f;
+            }
+            else
+            {
+                MoveSpeed = 0.3f;
+                RotateSpeed = 0.04f;
+            }
             //Move
             if (keystate.IsKeyDown(Key.S))
                 MoveCamera(0, 0, MoveSpeed);

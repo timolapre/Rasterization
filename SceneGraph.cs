@@ -31,7 +31,7 @@ namespace template_P3
 			GL.Uniform3(lightID, -100.0f, 100.0f, -20.0f);
 
 			Node Child = new Node(null);
-			Node Child3 = new Node(new MeshGroup("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1f, 1, 1), new Vector3(0, .01f, 0)));
+			/*Node Child3 = new Node(new MeshGroup("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1f, 1, 1), new Vector3(0, .01f, 0)));
 			for (int i = 0; i < 10; i++)
             {
                 Node Child2 = Child3;
@@ -42,7 +42,7 @@ namespace template_P3
                 childlist.Add(Child3);
                 
             }
-			Scene.AddChild(Child);
+			Scene.AddChild(Child);*/
 
 			//Track
 			Node newChild = new Node(new MeshGroup("../../assets/AC/Animal Crossing - Summer.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
@@ -50,7 +50,7 @@ namespace template_P3
 
 			//Kart
 			newChild = new Node(new MeshGroup("../../assets/Kart/Standard Kart.obj", new Vector3(-20, 1, -17), new Vector3(0, .5f*PI, 0), new Vector3(.5f, .5f, .5f)));
-			Child = new Node(new MeshGroup("../../assets/Kart/Leaf Tire.obj", new Vector3(-.2f, -.15f, .36f), new Vector3(0, 0, 0), new Vector3(8,8,8)));
+            Child = new Node(new MeshGroup("../../assets/Kart/Leaf Tire.obj", new Vector3(-.2f, -.15f, .36f), new Vector3(0, 0, 0), new Vector3(8,8,8)));
 			newChild.AddChild(Child);
 			Child = new Node(Child.mesh.Copy());
 			Child.mesh.offset.X = .2f;
