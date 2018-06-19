@@ -15,7 +15,6 @@ void main()
 	// apply dummy postprocessing effect
 	float dx = P.x - 0.5, dy = P.y - 0.5;
 	float distance = sqrt( dx * dx + dy * dy );
-	float x = -distance * 1.9f + 1.5f;
 	outputColor *= vec3(-distance * 1.99f + 1.5f,-distance * 1.80f + 1.5f,-distance * 1.9f + 1.5f);
 }
 
