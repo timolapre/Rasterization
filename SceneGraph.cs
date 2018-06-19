@@ -97,13 +97,13 @@ namespace template_P3
         {
             
 			//Child3.mesh.Rotation.Y += .05f;
-            //Game.target.Bind();
+            Game.target.Bind();
 			Matrix4 plainMatrix = new Matrix4();
 			plainMatrix.Diagonal = new Vector4(1, 1, 1, 1);
 			foreach (Node child in Scene.Children)
                 RenderChildren(child, CameraMatrix, plainMatrix, plainMatrix);
-            //Game.target.Unbind();
-            //Game.quad.Render(Game.postproc, Game.target.GetTextureID());
+            Game.target.Unbind();
+            Game.quad.Render(Game.postproc, Game.target.GetTextureID());
         }
 
 		public void RenderChildren(Node parent, Matrix4 LocalMatrix, Matrix4 rotMatrix, Matrix4 transMatrix)
