@@ -35,9 +35,13 @@ namespace Template_P3
         int MouseOldX, MouseOldY;
         float frameDuration;
 
+		int chromatic;
+		bool chromaticOn = true;
+		int vignette;
+		bool vignetteOn = true;
 
-        // initialize
-        public void Init()
+		// initialize
+		public void Init()
         {
             // load teapot
             //mesh = new Mesh( "../../assets/teapot.obj" ,Vector3.Zero,Vector3.Zero);
@@ -57,6 +61,9 @@ namespace Template_P3
             quad = new ScreenQuad();
 
             sceneGraph.Init();
+			
+			chromatic = GL.GetUniformLocation(postproc.programID, "chromatic");
+			vignette = GL.GetUniformLocation(postproc.programID, "vignette");
 		}
 
         // tick for background surface
@@ -114,7 +121,12 @@ namespace Template_P3
 			GetKeyInput();
             //new Render scene
             sceneGraph.Render(CamMatrix);
-        }
+			
+			GL.UseProgram(postproc.programID);
+			GL.Uniform1(chromatic, chromaticOn ? 1 : 0);
+			GL.UseProgram(postproc.programID);
+			GL.Uniform1(vignette, vignetteOn ? 1 : 0);
+		}
 
         public void MoveCamera(float x, float y, float z)
         {
@@ -128,6 +140,7 @@ namespace Template_P3
             Game.z += z;
         }
 
+		KeyboardState prevkeystate;
         public void GetKeyInput()
         {
             float MoveSpeed;
@@ -158,8 +171,15 @@ namespace Template_P3
             if (keystate.IsKeyDown(Key.LShift))
                 MoveCamera(0, -MoveSpeed, 0);
 
-            //Rotate
-            if (keystate.IsKeyDown(Key.Up))
+			if (keystate.IsKeyDown(Key.R))
+				CamPos = new Vector3(20.1f, -1.4f, 17);
+			if (keystate.IsKeyDown(Key.F1) && prevkeystate.IsKeyUp(Key.F1))
+				chromaticOn = !chromaticOn;
+			if (keystate.IsKeyDown(Key.F2) && prevkeystate.IsKeyUp(Key.F2))
+				vignetteOn = !vignetteOn;
+
+			//Rotate
+			if (keystate.IsKeyDown(Key.Up))
                 RotateCamera(-RotateSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.Down))
                 RotateCamera(RotateSpeed, 0, 0);
@@ -200,6 +220,8 @@ namespace Template_P3
                 if (ambientLightColor.Z != 1f) ambientLightColor.Z = 1f;
                 else ambientLightColor.Z = 0f;
             }
+
+			prevkeystate = keystate;
         }
     }
 
