@@ -62,7 +62,7 @@ namespace Template_P3
 
             sceneGraph.Init();
 
-			fxId = GL.GetUniformLocation(postproc.programID, "postproc");
+			fxId = GL.GetUniformLocation(postproc.programID, "fx");
 		}
 
         // tick for background surface
