@@ -35,11 +35,9 @@ namespace Template_P3
         int MouseOldX, MouseOldY;
         float frameDuration;
 
-		int chromatic;
+		int fxId;
 		bool chromaticOn = true;
-		int vignette;
 		bool vignetteOn = true;
-        int shiny;
         bool shinyOn = true;
 
 		// initialize
@@ -63,10 +61,8 @@ namespace Template_P3
             quad = new ScreenQuad();
 
             sceneGraph.Init();
-			
-			chromatic = GL.GetUniformLocation(postproc.programID, "chromatic");
-            shiny = GL.GetUniformLocation(postproc.programID, "shiny");
-            vignette = GL.GetUniformLocation(postproc.programID, "vignette");
+
+			fxId = GL.GetUniformLocation(postproc.programID, "postproc");
 		}
 
         // tick for background surface
@@ -97,7 +93,7 @@ namespace Template_P3
             OpenTK.Input.Mouse.GetCursorState();
 
 			// update rotation
-			//a += 0.001f * frameDuration; 
+			//a += 0.001f * frameDuration;
 			//if (a > 2 * PI) a -= 2 * PI;
 
 			/*if (useRenderTarget)
@@ -124,14 +120,10 @@ namespace Template_P3
 			GetKeyInput();
             //new Render scene
             sceneGraph.Render(CamMatrix);
-			
-			GL.UseProgram(postproc.programID);
-			GL.Uniform1(chromatic, chromaticOn ? 1 : 0);
-            GL.UseProgram(postproc.programID);
-			GL.Uniform1(shiny, shinyOn ? 1 : 0);
-			GL.UseProgram(postproc.programID);
-			GL.Uniform1(vignette, vignetteOn ? 1 : 0);
 
+			GL.UseProgram(postproc.programID);
+            Vector3 fx = new Vector3(chromaticOn ? 1 : 0, vignetteOn ? 1 : 0, shinyOn ? 1 : 0);
+			GL.Uniform3(fxId, ref fx);
 		}
 
         public void MoveCamera(float x, float y, float z)

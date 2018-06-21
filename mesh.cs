@@ -19,6 +19,7 @@ namespace Template_P3
         int vertexBufferId;                     // vertex buffer
         int triangleBufferId;                   // triangle buffer
         int quadBufferId;						// quad buffer
+        int depthTexture;
         public Matrix4 ModelView;
 
         public Vector3 offset { get; set; }
@@ -54,6 +55,8 @@ namespace Template_P3
                 GL.GenBuffers(1, out quadBufferId);
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, quadBufferId);
                 GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(quads.Length * Marshal.SizeOf(typeof(ObjQuad))), quads, BufferUsageHint.StaticDraw);
+
+                
             }
         }
 

@@ -5,9 +5,7 @@ in vec2 P;						// fragment position in screen space
 in vec2 uv;						// interpolated texture coordinates
 uniform sampler2D pixels;		// input texture (1st pass render target)
 
-uniform int chromatic;
-uniform int vignette;
-uniform int shiny;
+uniform vec3 fxs;
 
 // shader output
 out vec3 outputColor;
@@ -18,10 +16,10 @@ void main()
 	float distance = sqrt( dx * dx + dy * dy );
 	// retrieve input pixel	
 	outputColor = texture( pixels, uv ).rgb;	
-	// apply dummy postprocessing effect
+	// apply dummy fxessing effect
 
 
-	if(chromatic > 0)
+	if(fx.x > 0)
 	{
 		float xo = dx*.035f*distance;
 		float yo = dy*.035f*distance;
@@ -31,12 +29,12 @@ void main()
 		outputColor = vec3(r,g,b);	
 	}	
 
-	if(shiny > 0 && outputColor.x > 0.5f)
+	if(fx.z > 0 && outputColor.x > 0.5f)
 	{
 		outputColor += 0.3f;
 	}
 
-	if(vignette > 0)
+	if(fx.y > 0)
 	{
 		outputColor *= -distance * 1.9f + 1.5f;
 	}	
