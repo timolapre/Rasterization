@@ -5,7 +5,7 @@ in vec2 P;						// fragment position in screen space
 in vec2 uv;						// interpolated texture coordinates
 uniform sampler2D pixels;		// input texture (1st pass render target)
 
-uniform vec3 fxs;
+uniform vec3 fx;
 
 // shader output
 out vec3 outputColor;

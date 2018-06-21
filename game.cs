@@ -6,6 +6,9 @@ using OpenTK.Input;
 using template_P3;
 using OpenTK.Graphics.ES30;
 
+
+using System.Drawing;
+
 // minimal OpenTK rendering framework for UU/INFOGR
 // Jacco Bikker, 2016
 
@@ -17,7 +20,7 @@ namespace Template_P3
         // member variables
         public Surface screen;                  // background surface for printing etc.
         const float PI = 3.1415926535f;         // PI
-        public static float x = 0, y = 3.1415926535f*0.5f, z = 0;                            // teapot rotation angle
+        public static float x = 0, y = PI*0.5f, z = 0;                            // teapot rotation angle
         Stopwatch timer;                        // timer for measuring frame duration
         Shader shader;                          // shader to use for rendering
         public static Shader postproc;                        // shader to use for post processing
@@ -39,6 +42,8 @@ namespace Template_P3
 		bool chromaticOn = true;
 		bool vignetteOn = true;
         bool shinyOn = true;
+
+        static public Bitmap heaghtMap = new Bitmap("../../assets/HeightMap.png");
 
 		// initialize
 		public void Init()
@@ -72,6 +77,7 @@ namespace Template_P3
             screen.Print((int)(1000/frameDuration)+" "/*+CamPos.X+" "+CamPos.Y+" "+CamPos.Z*/, 2, 2, 0xffff00 );
             Mouse = OpenTK.Input.Mouse.GetState();
             //Console.WriteLine(Mouse.X + " " + MouseOldX);
+            CamPos.Y = -heaghtMap.GetPixel((int)(CamPos.X*-7.75f) +683,(int)(CamPos.Z*-5.176f) +352).G/255f*15f + 4;
             sceneGraph.Tick();
             RotateCamera((float)(Mouse.Y-MouseOldY)/200,(float)(Mouse.X-MouseOldX)/200,0);
             MouseOldX = Mouse.X;
@@ -129,6 +135,7 @@ namespace Template_P3
         public void MoveCamera(float x, float y, float z)
         {
             CamPos -= new Vector3(z*(float)Math.Cos(Game.y+0.5*PI) + x * (float)Math.Cos(Game.y), y, z*(float)Math.Sin(Game.y+0.5*PI)+ x * (float)Math.Sin(Game.y));
+            Console.WriteLine(CamPos.Y);
         }
 
         public void RotateCamera(float x, float y, float z)
