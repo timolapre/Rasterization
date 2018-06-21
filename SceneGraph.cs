@@ -20,18 +20,22 @@ namespace template_P3
 		// create shaders
 		Shader shader = new Shader("../../shaders/vs.glsl", "../../shaders/fs.glsl");
         // load a texture
-        Texture wood = new Texture("../../assets/wood.jpg");
+        Texture wood = new Texture("../../assets/metal.jpg");
         Stopwatch timer = new Stopwatch();
 		
         List<Node> childlist = new List<Node>();
         public static Node Kart;
 
+		int mypos;
 
 		public void Init()
 		{
 			int lightID = GL.GetUniformLocation(shader.programID, "lightPos");
 			GL.UseProgram(shader.programID);
 			GL.Uniform3(lightID, -100.0f, 100.0f, -20.0f);
+			mypos = GL.GetUniformLocation(shader.programID, "myPos");
+			GL.UseProgram(shader.programID);
+			GL.Uniform3(mypos, Game.CamPos);
 
 			Node Child = new Node(null);
 			Node Child3 = new Node(new MeshGroup("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1, 1, 1), new Vector3(0, .01f, 0)));
@@ -102,9 +106,11 @@ namespace template_P3
 
         public void Render(Matrix4 CameraMatrix)
         {
-            
+
+			GL.UseProgram(shader.programID);
+			GL.Uniform3(mypos, Game.CamPos);
 			//Child3.mesh.Rotation.Y += .05f;
-            Game.target.Bind();
+			Game.target.Bind();
 			Matrix4 plainMatrix = new Matrix4();
 			plainMatrix.Diagonal = new Vector4(1, 1, 1, 1);
 			foreach (Node child in Scene.Children)

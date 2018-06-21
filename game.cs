@@ -87,7 +87,10 @@ namespace Template_P3
 			ref Vector3 kartPos = ref SceneGraph.Kart.mesh.offset;
 			int xp = (int)(kartPos.X * 7.75f) + 683;
             int yp = (int)(kartPos.Z * 5.176f) + 352;
-			kartPos.Y = heaghtMap.GetPixel(xp, yp).G / 255f * 15f - 4.5f;
+			Color height = new Color();
+			if (!(xp < 0 || xp >= 1366 || yp < 0 || yp >= 705))
+				height = heaghtMap.GetPixel(xp, yp);
+			kartPos.Y = height.G / 255f * 15f - 4.7f;
 			if (inKart)
 			{
 				y = -SceneGraph.Kart.mesh.Rotation.Y + PI;
@@ -97,9 +100,9 @@ namespace Template_P3
 					CamPos += new Vector3(2 * (float)Math.Cos(y + 0.5 * PI) + 0 * (float)Math.Cos(y), .5f, 2 * (float)Math.Sin(y + 0.5 * PI) + 0 * (float)Math.Sin(y)); ;
 				}
 			}
-            if (heaghtMap.GetPixel(xp, yp).B > 250 && !SceneGraph.Kart.ContainsChild(glider))
+            if (height.B > 250 && !SceneGraph.Kart.ContainsChild(glider))
                 SceneGraph.Kart.AddChild(glider);
-            else if(heaghtMap.GetPixel(xp, yp).B < 5 && SceneGraph.Kart.ContainsChild(glider))
+            else if(height.B < 5 && SceneGraph.Kart.ContainsChild(glider))
                 SceneGraph.Kart.RemoveChild(glider);
 			if ((thirdPerson || !inKart) && !SceneGraph.Kart.ContainsChild(character))
 				SceneGraph.Kart.AddChild(character);
