@@ -20,22 +20,16 @@ namespace template_P3
 		// create shaders
 		Shader shader = new Shader("../../shaders/vs.glsl", "../../shaders/fs.glsl");
         // load a texture
-        Texture wood = new Texture("../../assets/metal.jpg");
+        Texture wood = new Texture("../../assets/wood.jpg");
         Stopwatch timer = new Stopwatch();
 		
-        List<Node> childlist = new List<Node>();
         public static Node Kart;
-
-		int mypos;
 
 		public void Init()
 		{
 			int lightID = GL.GetUniformLocation(shader.programID, "lightPos");
 			GL.UseProgram(shader.programID);
 			GL.Uniform3(lightID, -100.0f, 100.0f, -20.0f);
-			mypos = GL.GetUniformLocation(shader.programID, "myPos");
-			GL.UseProgram(shader.programID);
-			GL.Uniform3(mypos, Game.CamPos);
 
 			Node Child = new Node(null);
 			Node Child3 = new Node(new MeshGroup("../../assets/teapot.obj", new Vector3(7.5f, 6, 0), new Vector3(0, PI, 0), new Vector3(1, 1, 1), new Vector3(0, .01f, 0)));
@@ -43,19 +37,19 @@ namespace template_P3
             {
                 Node Child2 = Child3;
                 Child3 = new Node(Child3.mesh.Copy());
-                if (i == 0)
+				Child3.mesh.specular = true;
+				if (i == 0)
                     Child = Child3;
                 Child2.AddChild(Child3);
-                childlist.Add(Child3);
             }
 			Scene.AddChild(Child);
 
 			//Track
 			Node newChild = new Node(new MeshGroup("../../assets/AC/Animal Crossing - Summer.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
-            Scene.AddChild(newChild);
+			Scene.AddChild(newChild);
 
-            //Skybox
-            newChild = new Node(new MeshGroup("../../assets/Skybox.obj", new Vector3(-20, 1, -17), new Vector3(0, 0, 0), new Vector3(.5f, .5f, .5f)));
+			//Skybox
+			newChild = new Node(new MeshGroup("../../assets/Skybox.obj", new Vector3(-20, 1, -17), new Vector3(0, 0, 0), new Vector3(.5f, .5f, .5f)));
             Scene.AddChild(newChild);
 
             //Kart
@@ -106,9 +100,6 @@ namespace template_P3
 
         public void Render(Matrix4 CameraMatrix)
         {
-
-			GL.UseProgram(shader.programID);
-			GL.Uniform3(mypos, Game.CamPos);
 			//Child3.mesh.Rotation.Y += .05f;
 			Game.target.Bind();
 			Matrix4 plainMatrix = new Matrix4();
