@@ -24,6 +24,8 @@ namespace template_P3
         Stopwatch timer = new Stopwatch();
 		
         List<Node> childlist = new List<Node>();
+
+
 		public void Init()
 		{
 			int lightID = GL.GetUniformLocation(shader.programID, "lightPos");
@@ -83,8 +85,8 @@ namespace template_P3
 		}
 
         public void Tick()
-        {
-            foreach (Node child in Scene.Children)
+		{
+			foreach (Node child in Scene.Children)
             {
                 Physics(child);
                 //item.mesh.Rotation.Y += .01f;
