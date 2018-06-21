@@ -35,11 +35,9 @@ namespace Template_P3
         int MouseOldX, MouseOldY;
         float frameDuration;
 
-		int chromatic;
+		int fxId;
 		bool chromaticOn = true;
-		int vignette;
 		bool vignetteOn = true;
-        int shiny;
         bool shinyOn = true;
 
 		// initialize
@@ -64,9 +62,7 @@ namespace Template_P3
 
             sceneGraph.Init();
 			
-			chromatic = GL.GetUniformLocation(postproc.programID, "chromatic");
-			vignette = GL.GetUniformLocation(postproc.programID, "vignette");
-            shiny = GL.GetUniformLocation(postproc.programID, "shiny");
+			fxId = GL.GetUniformLocation(postproc.programID, "postproc");
 		}
 
         // tick for background surface
@@ -126,11 +122,8 @@ namespace Template_P3
             sceneGraph.Render(CamMatrix);
 			
 			GL.UseProgram(postproc.programID);
-			GL.Uniform1(chromatic, chromaticOn ? 1 : 0);
-			GL.UseProgram(postproc.programID);
-			GL.Uniform1(vignette, vignetteOn ? 1 : 0);
-            GL.UseProgram(postproc.programID);
-			GL.Uniform1(shiny, shinyOn ? 1 : 0);
+            Vector3 fx = new Vector3(chromaticOn ? 1 : 0, vignetteOn ? 1 : 0, shinyOn ? 1 : 0);
+			GL.Uniform3(fxId, ref fx);
 		}
 
         public void MoveCamera(float x, float y, float z)
