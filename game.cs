@@ -209,10 +209,7 @@ namespace Template_P3
 			if (keystate.IsKeyDown(Key.F2) && prevkeystate.IsKeyUp(Key.F2))
 				vignetteOn = !vignetteOn;
             if (keystate.IsKeyDown(Key.F3) && prevkeystate.IsKeyUp(Key.F3))
-            {
                 shinyOn = !shinyOn;
-                vignetteOn = true;
-            }
 
 
             if (keystate.IsKeyDown(Key.F5) && prevkeystate.IsKeyUp(Key.F5))
