@@ -18,4 +18,5 @@ void main() // fragment shader
 	float attenuation = 1.0f / (dist * dist);
 	outputColor = vec4( materialColor * (max( 0.0f, dot( L, normal.xyz ) ) + ambientLight) * attenuation * lightColor, 1 );
 	outputColor = normalize(outputColor);
+	//outputColor = vec4(0,(worldPos.y+5)/15,0,1); //HeightMap
 }

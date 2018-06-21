@@ -19,6 +19,7 @@ namespace Template_P3
         int vertexBufferId;                     // vertex buffer
         int triangleBufferId;                   // triangle buffer
         int quadBufferId;						// quad buffer
+        int depthTexture;
         public Matrix4 ModelView;
 
         public Vector3 offset { get; set; }
@@ -54,6 +55,8 @@ namespace Template_P3
                 GL.GenBuffers(1, out quadBufferId);
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, quadBufferId);
                 GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(quads.Length * Marshal.SizeOf(typeof(ObjQuad))), quads, BufferUsageHint.StaticDraw);
+
+                
             }
         }
 
@@ -81,7 +84,7 @@ namespace Template_P3
 			//Console.WriteLine(transform.Row1);
 
 			Matrix4 toWorld = transform;
-			transform *= Matrix4.CreateTranslation(Game.CamPos.X, Game.CamPos.Y, Game.CamPos.Z);
+			transform *= Matrix4.CreateTranslation(Game.CamPos);
 			transform *= Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), Game.z);
             transform *= Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), Game.y); 
             transform *= Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), Game.x);
