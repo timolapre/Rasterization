@@ -50,8 +50,12 @@ namespace template_P3
 			Node newChild = new Node(new MeshGroup("../../assets/AC/Animal Crossing - Summer.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
             Scene.AddChild(newChild);
 
-			//Kart
-			newChild = new Node(new MeshGroup("../../assets/Kart/Standard Kart.obj", new Vector3(-20, 1, -17), new Vector3(0, .5f*PI, 0), new Vector3(.5f, .5f, .5f)));
+            //Skybox
+            newChild = new Node(new MeshGroup("../../assets/Skybox.obj", new Vector3(-20, 1, -17), new Vector3(0, 0, 0), new Vector3(.5f, .5f, .5f)));
+            Scene.AddChild(newChild);
+
+            //Kart
+            newChild = new Node(new MeshGroup("../../assets/Kart/Standard Kart.obj", new Vector3(-20, 1, -17), new Vector3(0, .5f*PI, 0), new Vector3(.5f, .5f, .5f)));
             Child = new Node(new MeshGroup("../../assets/Kart/Leaf Tire.obj", new Vector3(-.2f, -.15f, .36f), new Vector3(0, 0, 0), new Vector3(8,8,8)));
             Kart = newChild;
 			newChild.AddChild(Child);
