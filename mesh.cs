@@ -84,7 +84,7 @@ namespace Template_P3
 			//Console.WriteLine(transform.Row1);
 
 			Matrix4 toWorld = transform;
-			transform *= Matrix4.CreateTranslation(Game.CamPos);
+			transform *= Matrix4.CreateTranslation(-Game.CamPos);
 			transform *= Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), Game.z);
             transform *= Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), Game.y); 
             transform *= Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), Game.x);

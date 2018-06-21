@@ -26,6 +26,11 @@ namespace template_P3
             Children.Add(child);
         }
 
+		public bool ContainsChild(Node child)
+		{
+			return Children.Contains(child);
+		}
+
         public void RemoveChild(Node child)
         {
             Children.Remove(child);

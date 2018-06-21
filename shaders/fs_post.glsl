@@ -21,11 +21,11 @@ void main()
 
 	if(fx.x > 0)
 	{
-		float xo = dx*.035f*distance;
-		float yo = dy*.035f*distance;
-		float r = texture( pixels, uv + vec2( xo, yo ) ).r;
-		float g = texture( pixels, uv ).g;
-		float b = texture( pixels, uv - vec2( xo, yo ) ).b;
+		float xo = dx*.025f*distance;
+		float yo = dy*.025f*distance;
+		float r = texture( pixels, uv - 2*vec2( xo, yo ) ).r;
+		float g = texture( pixels, uv - vec2( xo, yo ) ).g;
+		float b = texture( pixels, uv ).b;
 		outputColor = vec3(r,g,b);	
 	}	
 
