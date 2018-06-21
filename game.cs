@@ -39,6 +39,8 @@ namespace Template_P3
 		bool chromaticOn = true;
 		int vignette;
 		bool vignetteOn = true;
+        int shiny;
+        bool shinyOn = true;
 
 		// initialize
 		public void Init()
@@ -64,6 +66,7 @@ namespace Template_P3
 			
 			chromatic = GL.GetUniformLocation(postproc.programID, "chromatic");
 			vignette = GL.GetUniformLocation(postproc.programID, "vignette");
+            shiny = GL.GetUniformLocation(postproc.programID, "shiny");
 		}
 
         // tick for background surface
@@ -126,6 +129,8 @@ namespace Template_P3
 			GL.Uniform1(chromatic, chromaticOn ? 1 : 0);
 			GL.UseProgram(postproc.programID);
 			GL.Uniform1(vignette, vignetteOn ? 1 : 0);
+            GL.UseProgram(postproc.programID);
+			GL.Uniform1(shiny, shinyOn ? 1 : 0);
 		}
 
         public void MoveCamera(float x, float y, float z)
@@ -177,9 +182,11 @@ namespace Template_P3
 				chromaticOn = !chromaticOn;
 			if (keystate.IsKeyDown(Key.F2) && prevkeystate.IsKeyUp(Key.F2))
 				vignetteOn = !vignetteOn;
+            if (keystate.IsKeyDown(Key.F3) && prevkeystate.IsKeyUp(Key.F3))
+                shinyOn = !shinyOn;
 
-			//Rotate
-			if (keystate.IsKeyDown(Key.Up))
+            //Rotate
+            if (keystate.IsKeyDown(Key.Up))
                 RotateCamera(-RotateSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.Down))
                 RotateCamera(RotateSpeed, 0, 0);
