@@ -43,10 +43,14 @@ namespace Template_P3
 		bool vignetteOn = true;
         bool shinyOn = true;
 
+        int canSteer = 0;
+        bool thirdPerson = false;
         static public Bitmap heaghtMap = new Bitmap("../../assets/HeightMap.png");
 
-		// initialize
-		public void Init()
+        Node glider = new Node(new MeshGroup("../../assets/Kite/bowserkite.obj", new Vector3(0, 0, .5f), new Vector3(0, 0, 0), new Vector3(.2f, .2f, .2f)));
+
+        // initialize
+        public void Init()
         {
             // load teapot
             //mesh = new Mesh( "../../assets/teapot.obj" ,Vector3.Zero,Vector3.Zero);
@@ -77,7 +81,18 @@ namespace Template_P3
             screen.Print((int)(1000/frameDuration)+" "/*+CamPos.X+" "+CamPos.Y+" "+CamPos.Z*/, 2, 2, 0xffff00 );
             Mouse = OpenTK.Input.Mouse.GetState();
             //Console.WriteLine(Mouse.X + " " + MouseOldX);
-            CamPos.Y = -heaghtMap.GetPixel((int)(CamPos.X*-7.75f) +683,(int)(CamPos.Z*-5.176f) +352).G/255f*15f + 4;
+            int xp = (int)(CamPos.X * -7.75f) + 683;
+            int yp = (int)(CamPos.Z * -5.176f) + 352;
+            CamPos.Y = -heaghtMap.GetPixel(xp, yp).G/255f*15f + 4;
+            SceneGraph.Kart.mesh.offset.Y = -CamPos.Y-.4f;
+            if (thirdPerson)
+            {
+                CamPos.Y += -1;
+            }
+            if (heaghtMap.GetPixel(xp, yp).B > 0 && SceneGraph.Kart.Children.Count < 5)
+                SceneGraph.Kart.AddChild(glider);
+            else if(heaghtMap.GetPixel(xp, yp).B < 10 && SceneGraph.Kart.Children.Count >= 5)
+                SceneGraph.Kart.RemoveChild(glider);
             sceneGraph.Tick();
             RotateCamera((float)(Mouse.Y-MouseOldY)/200,(float)(Mouse.X-MouseOldX)/200,0);
             MouseOldX = Mouse.X;
@@ -164,15 +179,23 @@ namespace Template_P3
                 RotateSpeed = 0.04f;
             }
             //Move
+            if (keystate.IsKeyUp(Key.S) && keystate.IsKeyUp(Key.W))
+                canSteer = 0;
             if (keystate.IsKeyDown(Key.S))
+            {
                 MoveCamera(0, 0, MoveSpeed);
+                canSteer = -1;
+            }
             if (keystate.IsKeyDown(Key.W))
+            {
                 MoveCamera(0, 0, -MoveSpeed);
+                canSteer = 1;
+            }
             if (keystate.IsKeyDown(Key.A))
-                RotateCamera(0,-RotateSpeed,0);
+                RotateCamera(0,-RotateSpeed*canSteer,0);
                 //MoveCamera(-MoveSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.D))
-                RotateCamera(0, RotateSpeed, 0);
+                RotateCamera(0, RotateSpeed*canSteer, 0);
                 //MoveCamera(MoveSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.Space))
                 MoveCamera(0, MoveSpeed, 0);
@@ -189,6 +212,12 @@ namespace Template_P3
             {
                 shinyOn = !shinyOn;
                 vignetteOn = true;
+            }
+
+
+            if (keystate.IsKeyDown(Key.F5) && prevkeystate.IsKeyUp(Key.F5))
+            {
+                thirdPerson = !thirdPerson;
             }
 
             //Rotate
