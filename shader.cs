@@ -16,6 +16,7 @@ namespace Template_P3
         public int uniform_mview;
         public int uniform_2wrld;
         public int uniformAmbientLightColor;
+        public int depthMatrixID;
 
         // constructor
         public Shader(String vertexShader, String fragmentShader)
@@ -34,7 +35,8 @@ namespace Template_P3
             uniform_mview = GL.GetUniformLocation(programID, "transform");
             uniform_2wrld = GL.GetUniformLocation(programID, "toWorld");
             uniformAmbientLightColor = GL.GetUniformLocation(programID, "ambLightColor");
-            
+            depthMatrixID = GL.GetUniformLocation(programID, "depthMVP");
+
         }
 
         // loading shaders

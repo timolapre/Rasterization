@@ -6,6 +6,9 @@ using OpenTK.Input;
 using template_P3;
 using OpenTK.Graphics.ES30;
 
+
+using System.Drawing;
+
 // minimal OpenTK rendering framework for UU/INFOGR
 // Jacco Bikker, 2016
 
@@ -17,7 +20,7 @@ namespace Template_P3
         // member variables
         public Surface screen;                  // background surface for printing etc.
         const float PI = 3.1415926535f;         // PI
-        public static float x = 0, y = 3.1415926535f*0.5f, z = 0;                            // teapot rotation angle
+        public static float x = 0, y = PI*0.5f, z = 0;                            // teapot rotation angle
         Stopwatch timer;                        // timer for measuring frame duration
         Shader shader;                          // shader to use for rendering
         public static Shader postproc;                        // shader to use for post processing
@@ -29,18 +32,18 @@ namespace Template_P3
 
         public static SceneGraph sceneGraph = new SceneGraph();
         Matrix4 CamMatrix = new Matrix4();
-        static public Vector3 CamPos = new Vector3(20.1f, -1.4f, 17);
+        static public Vector3 CamPos = new Vector3(20f, -1.4f, 17);
 
         MouseState Mouse;
         int MouseOldX, MouseOldY;
         float frameDuration;
 
-		int chromatic;
+		int fxId;
 		bool chromaticOn = true;
-		int vignette;
 		bool vignetteOn = true;
-        int shiny;
         bool shinyOn = true;
+
+        static public Bitmap heaghtMap = new Bitmap("../../assets/HeightMap.png");
 
 		// initialize
 		public void Init()
@@ -63,10 +66,8 @@ namespace Template_P3
             quad = new ScreenQuad();
 
             sceneGraph.Init();
-			
-			chromatic = GL.GetUniformLocation(postproc.programID, "chromatic");
-			vignette = GL.GetUniformLocation(postproc.programID, "vignette");
-            shiny = GL.GetUniformLocation(postproc.programID, "shiny");
+
+			fxId = GL.GetUniformLocation(postproc.programID, "fx");
 		}
 
         // tick for background surface
@@ -76,6 +77,7 @@ namespace Template_P3
             screen.Print((int)(1000/frameDuration)+" "/*+CamPos.X+" "+CamPos.Y+" "+CamPos.Z*/, 2, 2, 0xffff00 );
             Mouse = OpenTK.Input.Mouse.GetState();
             //Console.WriteLine(Mouse.X + " " + MouseOldX);
+            CamPos.Y = -heaghtMap.GetPixel((int)(CamPos.X*-7.75f) +683,(int)(CamPos.Z*-5.176f) +352).G/255f*15f + 4;
             sceneGraph.Tick();
             RotateCamera((float)(Mouse.Y-MouseOldY)/200,(float)(Mouse.X-MouseOldX)/200,0);
             MouseOldX = Mouse.X;
@@ -97,7 +99,7 @@ namespace Template_P3
             OpenTK.Input.Mouse.GetCursorState();
 
 			// update rotation
-			//a += 0.001f * frameDuration; 
+			//a += 0.001f * frameDuration;
 			//if (a > 2 * PI) a -= 2 * PI;
 
 			/*if (useRenderTarget)
@@ -124,18 +126,16 @@ namespace Template_P3
 			GetKeyInput();
             //new Render scene
             sceneGraph.Render(CamMatrix);
-			
+
 			GL.UseProgram(postproc.programID);
-			GL.Uniform1(chromatic, chromaticOn ? 1 : 0);
-			GL.UseProgram(postproc.programID);
-			GL.Uniform1(vignette, vignetteOn ? 1 : 0);
-            GL.UseProgram(postproc.programID);
-			GL.Uniform1(shiny, shinyOn ? 1 : 0);
+            Vector3 fx = new Vector3(chromaticOn ? 1 : 0, vignetteOn ? 1 : 0, shinyOn ? 1 : 0);
+			GL.Uniform3(fxId, ref fx);
 		}
 
         public void MoveCamera(float x, float y, float z)
         {
             CamPos -= new Vector3(z*(float)Math.Cos(Game.y+0.5*PI) + x * (float)Math.Cos(Game.y), y, z*(float)Math.Sin(Game.y+0.5*PI)+ x * (float)Math.Sin(Game.y));
+            SceneGraph.Kart.mesh.offset += new Vector3(z * (float)Math.Cos(Game.y + 0.5 * PI) + x * (float)Math.Cos(Game.y), y, z * (float)Math.Sin(Game.y + 0.5 * PI) + x * (float)Math.Sin(Game.y));
         }
 
         public void RotateCamera(float x, float y, float z)
@@ -143,6 +143,7 @@ namespace Template_P3
             Game.x += x;
             Game.y += y;
             Game.z += z;
+            SceneGraph.Kart.mesh.Rotation -= new Vector3(0, y, 0);
         }
 
 		KeyboardState prevkeystate;
@@ -168,9 +169,11 @@ namespace Template_P3
             if (keystate.IsKeyDown(Key.W))
                 MoveCamera(0, 0, -MoveSpeed);
             if (keystate.IsKeyDown(Key.A))
-                MoveCamera(-MoveSpeed, 0, 0);
+                RotateCamera(0,-RotateSpeed,0);
+                //MoveCamera(-MoveSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.D))
-                MoveCamera(MoveSpeed, 0, 0);
+                RotateCamera(0, RotateSpeed, 0);
+                //MoveCamera(MoveSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.Space))
                 MoveCamera(0, MoveSpeed, 0);
             if (keystate.IsKeyDown(Key.LShift))
@@ -183,7 +186,10 @@ namespace Template_P3
 			if (keystate.IsKeyDown(Key.F2) && prevkeystate.IsKeyUp(Key.F2))
 				vignetteOn = !vignetteOn;
             if (keystate.IsKeyDown(Key.F3) && prevkeystate.IsKeyUp(Key.F3))
+            {
                 shinyOn = !shinyOn;
+                vignetteOn = true;
+            }
 
             //Rotate
             if (keystate.IsKeyDown(Key.Up))
