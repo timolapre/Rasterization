@@ -32,7 +32,7 @@ namespace Template_P3
 
         public static SceneGraph sceneGraph = new SceneGraph();
         Matrix4 CamMatrix = new Matrix4();
-        static public Vector3 CamPos = new Vector3(20.1f, -1.4f, 17);
+        static public Vector3 CamPos = new Vector3(20f, -1.4f, 17);
 
         MouseState Mouse;
         int MouseOldX, MouseOldY;
@@ -66,8 +66,8 @@ namespace Template_P3
             quad = new ScreenQuad();
 
             sceneGraph.Init();
-			
-			fxId = GL.GetUniformLocation(postproc.programID, "postproc");
+
+			fxId = GL.GetUniformLocation(postproc.programID, "fx");
 		}
 
         // tick for background surface
@@ -99,7 +99,7 @@ namespace Template_P3
             OpenTK.Input.Mouse.GetCursorState();
 
 			// update rotation
-			//a += 0.001f * frameDuration; 
+			//a += 0.001f * frameDuration;
 			//if (a > 2 * PI) a -= 2 * PI;
 
 			/*if (useRenderTarget)
@@ -126,7 +126,7 @@ namespace Template_P3
 			GetKeyInput();
             //new Render scene
             sceneGraph.Render(CamMatrix);
-			
+
 			GL.UseProgram(postproc.programID);
             Vector3 fx = new Vector3(chromaticOn ? 1 : 0, vignetteOn ? 1 : 0, shinyOn ? 1 : 0);
 			GL.Uniform3(fxId, ref fx);
@@ -135,7 +135,7 @@ namespace Template_P3
         public void MoveCamera(float x, float y, float z)
         {
             CamPos -= new Vector3(z*(float)Math.Cos(Game.y+0.5*PI) + x * (float)Math.Cos(Game.y), y, z*(float)Math.Sin(Game.y+0.5*PI)+ x * (float)Math.Sin(Game.y));
-            Console.WriteLine(CamPos.Y);
+            SceneGraph.Kart.mesh.offset += new Vector3(z * (float)Math.Cos(Game.y + 0.5 * PI) + x * (float)Math.Cos(Game.y), y, z * (float)Math.Sin(Game.y + 0.5 * PI) + x * (float)Math.Sin(Game.y));
         }
 
         public void RotateCamera(float x, float y, float z)
@@ -143,6 +143,7 @@ namespace Template_P3
             Game.x += x;
             Game.y += y;
             Game.z += z;
+            SceneGraph.Kart.mesh.Rotation -= new Vector3(0, y, 0);
         }
 
 		KeyboardState prevkeystate;
@@ -168,9 +169,11 @@ namespace Template_P3
             if (keystate.IsKeyDown(Key.W))
                 MoveCamera(0, 0, -MoveSpeed);
             if (keystate.IsKeyDown(Key.A))
-                MoveCamera(-MoveSpeed, 0, 0);
+                RotateCamera(0,-RotateSpeed,0);
+                //MoveCamera(-MoveSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.D))
-                MoveCamera(MoveSpeed, 0, 0);
+                RotateCamera(0, RotateSpeed, 0);
+                //MoveCamera(MoveSpeed, 0, 0);
             if (keystate.IsKeyDown(Key.Space))
                 MoveCamera(0, MoveSpeed, 0);
             if (keystate.IsKeyDown(Key.LShift))
@@ -183,7 +186,10 @@ namespace Template_P3
 			if (keystate.IsKeyDown(Key.F2) && prevkeystate.IsKeyUp(Key.F2))
 				vignetteOn = !vignetteOn;
             if (keystate.IsKeyDown(Key.F3) && prevkeystate.IsKeyUp(Key.F3))
+            {
                 shinyOn = !shinyOn;
+                vignetteOn = true;
+            }
 
             //Rotate
             if (keystate.IsKeyDown(Key.Up))

@@ -9,7 +9,6 @@ uniform vec3 fx;
 
 // shader output
 out vec3 outputColor;
-out vec3 test;
 
 void main()
 {
@@ -27,7 +26,7 @@ void main()
 		float r = texture( pixels, uv + vec2( xo, yo ) ).r;
 		float g = texture( pixels, uv ).g;
 		float b = texture( pixels, uv - vec2( xo, yo ) ).b;
-		outputColor = vec3(r,g,b);
+		outputColor = vec3(r,g,b);	
 	}	
 
 	if(fx.z > 0 && outputColor.x > 0.5f)
