@@ -84,17 +84,16 @@ namespace Template_P3
             screen.Print((int)(1000/frameDuration)+" "/*+CamPos.X+" "+CamPos.Y+" "+CamPos.Z*/, 2, 2, 0xffff00 );
             Mouse = OpenTK.Input.Mouse.GetState();
 			//Console.WriteLine(Mouse.X + " " + MouseOldX);
-			ref Vector3 kartPos = ref SceneGraph.Kart.mesh.offset;
-			int xp = (int)(kartPos.X * 7.75f) + 683;
-            int yp = (int)(kartPos.Z * 5.176f) + 352;
+			int xp = (int)(SceneGraph.Kart.mesh.offset.X * 7.75f) + 683;
+            int yp = (int)(SceneGraph.Kart.mesh.offset.Z * 5.176f) + 352;
 			Color height = new Color();
 			if (!(xp < 0 || xp >= 1366 || yp < 0 || yp >= 705))
 				height = heaghtMap.GetPixel(xp, yp);
-			kartPos.Y = height.G / 255f * 15f - 4.7f;
+			SceneGraph.Kart.mesh.offset.Y = height.G / 255f * 15f - 4.7f;
 			if (inKart)
 			{
 				y = -SceneGraph.Kart.mesh.Rotation.Y + PI;
-				CamPos = kartPos + new Vector3(0, .4f, 0);
+				CamPos = SceneGraph.Kart.mesh.offset + new Vector3(0, .4f, 0);
 				if (thirdPerson)
 				{
 					CamPos += new Vector3(2 * (float)Math.Cos(y + 0.5 * PI) + 0 * (float)Math.Cos(y), .5f, 2 * (float)Math.Sin(y + 0.5 * PI) + 0 * (float)Math.Sin(y)); ;
