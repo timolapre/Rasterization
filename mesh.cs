@@ -61,7 +61,7 @@ namespace Template_P3
         }
 
         // render the mesh using the supplied shader and matrix
-        public void Render(Shader shader, Matrix4 transform, int texture)
+        public void Render(Shader shader, Matrix4 transform, int texture, bool specular)
         {
             
             // on first run, prepare buffers
@@ -75,16 +75,19 @@ namespace Template_P3
             GL.Uniform1(texLoc, 0);
             GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.Texture2D, texture);
+			int spec = GL.GetUniformLocation(shader.programID, "specular");
+			GL.UseProgram(shader.programID);
+			GL.Uniform1(spec, specular ? 1 : 0);
 
-            // enable shader
-            GL.UseProgram(shader.programID);
+			// enable shader
+			GL.UseProgram(shader.programID);
 
 			// pass transform to vertex shader
 			//transform.Row1 = new Vector4(0,transform.Row1.Y,0,1);
 			//Console.WriteLine(transform.Row1);
 
 			Matrix4 toWorld = transform;
-			transform *= Matrix4.CreateTranslation(Game.CamPos);
+			transform *= Matrix4.CreateTranslation(-Game.CamPos);
 			transform *= Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), Game.z);
             transform *= Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), Game.y); 
             transform *= Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), Game.x);
@@ -92,8 +95,8 @@ namespace Template_P3
 			GL.UniformMatrix4(shader.uniform_mview, false, ref transform);
             GL.UniformMatrix4(shader.uniform_2wrld, false, ref toWorld);
 
-            // enable position, normal and uv attributes
-            GL.EnableVertexAttribArray(shader.attribute_vpos);
+			// enable position, normal and uv attributes
+			GL.EnableVertexAttribArray(shader.attribute_vpos);
             GL.EnableVertexAttribArray(shader.attribute_vnrm);
             GL.EnableVertexAttribArray(shader.attribute_vuvs);
 

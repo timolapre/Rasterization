@@ -23,9 +23,7 @@ namespace template_P3
         Texture wood = new Texture("../../assets/wood.jpg");
         Stopwatch timer = new Stopwatch();
 		
-        List<Node> childlist = new List<Node>();
         public static Node Kart;
-
 
 		public void Init()
 		{
@@ -39,16 +37,16 @@ namespace template_P3
             {
                 Node Child2 = Child3;
                 Child3 = new Node(Child3.mesh.Copy());
-                if (i == 0)
+				Child3.mesh.specular = true;
+				if (i == 0)
                     Child = Child3;
                 Child2.AddChild(Child3);
-                childlist.Add(Child3);
             }
 			Scene.AddChild(Child);
 
 			//Track
 			Node newChild = new Node(new MeshGroup("../../assets/AC/Animal Crossing - Summer.obj", new Vector3(0, -20, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
-            Scene.AddChild(newChild);
+			Scene.AddChild(newChild);
 
             //Skybox
             newChild = new Node(new MeshGroup("../../assets/skydome.obj", new Vector3(0, -10, 0), new Vector3(0, 0, 0), new Vector3(500,500,500)));
@@ -102,15 +100,14 @@ namespace template_P3
 
         public void Render(Matrix4 CameraMatrix)
         {
-            
 			//Child3.mesh.Rotation.Y += .05f;
-            //Game.target.Bind();
+			Game.target.Bind();
 			Matrix4 plainMatrix = new Matrix4();
 			plainMatrix.Diagonal = new Vector4(1, 1, 1, 1);
 			foreach (Node child in Scene.Children)
                 RenderChildren(child, CameraMatrix, plainMatrix, plainMatrix);
-            //Game.target.Unbind();
-            //Game.quad.Render(Game.postproc, Game.target.GetTextureID());
+            Game.target.Unbind();
+            Game.quad.Render(Game.postproc, Game.target.GetTextureID());
         }
 
 		public void RenderChildren(Node parent, Matrix4 LocalMatrix, Matrix4 rotMatrix, Matrix4 transMatrix)

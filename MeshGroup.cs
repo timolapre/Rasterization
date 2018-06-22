@@ -14,6 +14,7 @@ namespace Template_P3
 		public Vector3 scale;
 		public Vector3 rotVelocity;
 		public Vector3 posVelocity;
+		public bool specular = false;
 
 		List<Mesh> meshes = new List<Mesh>();
 
@@ -54,7 +55,7 @@ namespace Template_P3
 		{
 			for (int i = 0; i < meshes.Count; i++)
 			{
-				meshes[i].Render(shader, transform, meshes[i].texture);
+				meshes[i].Render(shader, transform, meshes[i].texture, specular);
 			}
 		}
 
