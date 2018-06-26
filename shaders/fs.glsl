@@ -21,7 +21,7 @@ void main() // fragment shader
 	float ang = dot(L,normal.xyz);
 	vec3 spec = vec3(0,0,0);
 	if(ang > 1.57079632679f - 0.61086523819f)
-		spec = 5f*(ang-(1.57079632679f - 0.61086523819f))*lightColor*max(0.0f, -dot(L, reflect(L, normal.xyz)));
+    spec = 5*(ang-(1.57079632679f - 0.61086523819f))*lightColor*max(0.0f, -dot(L, reflect(L, normal.xyz)));
 	outputColor = vec4( materialColor * ambientLight + .3f*diff + specular*.7f*spec, 1 );
 	outputColor = normalize(outputColor);
 	//outputColor = vec4(0,(worldPos.y+5)/15,0,1); //HeightMap
