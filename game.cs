@@ -194,13 +194,13 @@ namespace Template_P3
             KeyboardState keystate = Keyboard.GetState();
             if (keystate.IsKeyDown(Key.LControl))
             {
-                MoveSpeed = 0.05f;
-                RotateSpeed = 0.01f;
+                MoveSpeed = 2.5f * frameDuration/1000;
+                RotateSpeed = 0.5f * frameDuration/1000;
             }
             else
             {
-                MoveSpeed = 0.3f;
-                RotateSpeed = 0.04f;
+                MoveSpeed = 15f * frameDuration/1000;
+                RotateSpeed = 2f * frameDuration/1000;
             }
             //Move
             if (keystate.IsKeyUp(Key.S) && keystate.IsKeyUp(Key.W))
