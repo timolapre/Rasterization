@@ -72,8 +72,13 @@ namespace Template_P3 {
                         string Kd = parameters[1];
                         for (int i = 2; i < parameters.Length; i++)
                             Kd += " " + parameters[i];
-                        Materials[currentMaterialName] = new Texture(filepath + Kd);
-                        Console.WriteLine(filepath + Kd);
+						if (File.Exists(filepath + Kd))
+						{
+							Materials[currentMaterialName] = new Texture(filepath + Kd);
+							Console.WriteLine(filepath + Kd);
+						}
+						else
+							Materials[currentMaterialName] = Game.defaultTexture;
                         break;
                 }
             }

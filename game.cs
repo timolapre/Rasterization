@@ -51,6 +51,8 @@ namespace Template_P3
         Node glider = new Node(new MeshGroup("../../assets/Kite/bowserkite.obj", new Vector3(0, 0, .5f), new Vector3(0, 0, 0), new Vector3(.2f, .2f, .2f)));
 		Node character = new Node(new MeshGroup("../../assets/teapot.obj", new Vector3(0, .03f, .1f), new Vector3(0, -.5f*PI, 0), new Vector3(.07f, .14f, .07f)));
 
+		static public Texture defaultTexture = new Texture("../../assets/wood.jpg");
+
 		// initialize
 		public void Init()
         {
